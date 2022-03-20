@@ -18,8 +18,9 @@ class Arbol_Posicionamiento_Cajas():
 		self.raiz = None
 
 	def Ver_Arbol( self ):
-		ListaArb = Arbol.representacion_en_forma_de_lista( self.raiz , [] , 0 )
 
+		ListaArb = Arbol.representacion_en_forma_de_lista( self.raiz , [] , 0 )
+		
 		contNivel = 0
 		for nivel in ListaArb:
 			print( '~~~~~~>>>>>>' )

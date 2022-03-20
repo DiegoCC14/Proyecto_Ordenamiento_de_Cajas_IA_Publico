@@ -35,7 +35,6 @@ class Arbol_de_CorteGuillotina():
 					print(" Hoja ~> Dim:" + str( nodo.dimencionCaja ) + " - Padre: " +str( nodo.padre.dimencionCaja ) )
 				else:
 					print( " Nodo ~> Dim: "+str( nodo.dimencionCaja ) + " - Corte: " + nodo.corte +" - Padre: " +str( nodo.padre.dimencionCaja ) )
-					
 			contNivel += 1
 			print( "----------------->>>>>\n")
 
