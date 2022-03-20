@@ -13,7 +13,6 @@ class Node_Contenedor():
 		self.Contenedor_Alado = None #Referencia a contenedor alado
 
 class Arbol_Posicionamiento_Cajas():
-	
 	def __init__( self ):
 		self.raiz = None
 
