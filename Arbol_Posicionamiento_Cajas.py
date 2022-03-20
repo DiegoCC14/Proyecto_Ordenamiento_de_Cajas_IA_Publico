@@ -13,25 +13,42 @@ class Node_Contenedor():
 		self.Contenedor_Alado = None #Referencia a contenedor alado
 
 class Arbol_Posicionamiento_Cajas():
+	
 	def __init__( self ):
 		self.raiz = None
 
-	def Ver_Arbol( self , Nodo_Actual ):
-		print( "~~~~~~>>>>>>>" )
-		if Nodo_Actual.padre == None:
-			print( "Padre de Caja: Raiz" )
-		else:
-			print( "Padre de Caja: ", Nodo_Actual.padre.dimencion )
-		print( "Dimencion Caja: ", Nodo_Actual.dimencion )
-		print( "Caja Interna: ", Nodo_Actual.cajaInterna )
-		print( "~~~~~~>>>>>>>" )
-		if Nodo_Actual.Contenedor_Alado != None:
-			self.Ver_Arbol( Nodo_Actual.Contenedor_Alado )
-		if Nodo_Actual.Contenedor_Arriba != None:
-			self.Ver_Arbol( Nodo_Actual.Contenedor_Arriba )
+	def Ver_Arbol( self ):
+		ListaArb = Arbol.representacion_en_forma_de_lista( self.raiz , [] , 0 )
 
-	def add_Cajas( self , ref_ContenedorActual , ListaCajasDisponibles ):
-		#Desde la raiz del arbol se ingresan las cajas 
+		contNivel = 0
+		for nivel in ListaArb:
+			print( '~~~~~~>>>>>>' )
+			print("Nivel: " + str( contNivel ) + " ~~> " )
+			for nodo in nivel:
+				if contNivel == 0:
+					print( str( nodo.dimencion ) , " - None " )
+				else:
+					if nodo.cajaInterna != None:
+						print( " Nodo ~> Dim: " , str( nodo.dimencion ) , " ; Caja Interna: " , str( nodo.cajaInterna ) , " ; Padre: " , str( nodo.padre.dimencion ) )
+					else:
+						print( " Hoja~> Dim: ", str( nodo.dimencion ) , " ; Padre: " , str( nodo.padre.dimencion ) )
+			print( '~~~~~~>>>>>> \n' )
+			contNivel += 1
+	
+	def representacion_en_forma_de_lista( self , nodoActual , ListaArbol , nivel ):
+
+		try:
+			ListaArbol[nivel].append( nodoActual ) #Si la lista nivel no existe
+		except:
+			ListaArbol.insert( nivel , [ nodoActual ] ) #Insertamos una lista con referencia al nodo actual
+
+		if nodoActual.cajaInterna != None:
+			ListaArbol = self.representacion_en_forma_de_lista( nodoActual.Contenedor_Alado , ListaArbol , nivel+1 )
+			ListaArbol = self.representacion_en_forma_de_lista( nodoActual.Contenedor_Arriba , ListaArbol , nivel+1 )
+
+		return ListaArbol
+
+	def add_Cajas( self , ref_ContenedorActual , ListaCajasDisponibles ): 
 		Caja_Encontrada = False
 		for pos in range( len(ListaCajasDisponibles) ):
 
@@ -62,9 +79,6 @@ class Arbol_Posicionamiento_Cajas():
 				x_ContenedorAlado = ref_ContenedorActual.dimencion[0] - CajaIngresado[0]
 				y_ContenedorAlado = CajaIngresado[1]
 				ref_ContenedorActual.Contenedor_Alado = Node_Contenedor( (x_ContenedorAlado , y_ContenedorAlado) , ref_ContenedorActual )
-				
-				# Esto retorna una lista de Cajas no ingresadas ------->>>>
-				# Aun no retorna la ListaCajasDisponibles ------------->>>>
 
 				ListaCajasDisponibles = self.add_Cajas( ref_ContenedorActual.Contenedor_Alado , ListaCajasDisponibles )
 
@@ -80,7 +94,7 @@ def OrdenandoMayorMenor_ListaCajas( Lista_Cajas ):
 	return Lista_Cajas
 
 
-'''
+
 # ------------------->>>
 # -- Configuracion -->>>
 Contenedor = (5,4)
@@ -95,5 +109,4 @@ Arbol = Arbol_Posicionamiento_Cajas()
 Arbol.raiz = Node_Contenedor( Contenedor , None ) #El padre del Nodo es None
 Arbol.add_Cajas( Arbol.raiz , ListaCajas )
 
-Arbol.Ver_Arbol( Arbol.raiz )
-'''
+Arbol.Ver_Arbol()
