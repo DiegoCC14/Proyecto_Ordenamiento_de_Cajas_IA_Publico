@@ -61,9 +61,11 @@ class Arbol_de_CorteGuillotina():
 		return "V"
 
 
+'''
 ArbolGuillotina = Arbol_de_CorteGuillotina( 3 )
 corte = ArbolGuillotina.corte_aleatorio_vertical_o_horizontal()
 ArbolGuillotina.raiz = Node_CorteGuillotina( (8,5) , corte , random.random() )
 
 ArbolGuillotina.Arma_arbolGuillotina_aleatoriamente( ArbolGuillotina.raiz , ArbolGuillotina.altura )
 ArbolGuillotina.VerArbolCorteGuillotina( ArbolGuillotina.raiz )
+'''
