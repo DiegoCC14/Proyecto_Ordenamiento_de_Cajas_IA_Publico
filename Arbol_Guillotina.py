@@ -88,7 +88,7 @@ Dimencion_Caja = (8,5)
 # ------------------->>>
 # ------------------->>>
 
-
+'''
 ArbolGuillotina = Arbol_de_CorteGuillotina( Altura_Arbol )
 corte = ArbolGuillotina.corte_aleatorio_vertical_o_horizontal()
 ArbolGuillotina.raiz = Node_CorteGuillotina( Dimencion_Caja , corte , random.random() , None )
@@ -99,3 +99,4 @@ ArbolGuillotina.Arma_arbolGuillotina_aleatoriamente( ArbolGuillotina.raiz , Arbo
 #Lista = ArbolGuillotina.representacion_en_forma_de_lista( ArbolGuillotina.raiz , [] , 0 )
 
 ArbolGuillotina.VerArbol_CorteGuillotina()
+'''
