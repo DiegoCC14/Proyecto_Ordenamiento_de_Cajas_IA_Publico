@@ -82,6 +82,11 @@ class Arbol_de_CorteGuillotina():
 			return "H"
 		return "V"
 
+def OrdenandoMayorMenor_ListaCajas( Lista_Cajas ):
+	Lista_Cajas.sort() #Ordenamos de menor a mayor las tuplas
+	Lista_Cajas = Lista_Cajas[::-1] #Invertimos las listas
+	return Lista_Cajas
+'''
 # ------------------->>>
 # -- Configuracion -->>>
 Altura_Arbol = 5
@@ -100,3 +105,32 @@ ArbolGuillotina.Arma_arbolGuillotina_aleatoriamente( ArbolGuillotina.raiz , Arbo
 #Lista = ArbolGuillotina.representacion_en_forma_de_lista( ArbolGuillotina.raiz , [] , 0 )
 
 ArbolGuillotina.VerArbol_CorteGuillotina()
+'''
+
+def Ordenando_cajas_en_contenedor( tam_contenedor , lista_cajas , sumatoria_actual , lista_actual , mejor_acercamiento ):
+	if mejor_acercamiento[0] != 0:
+		while lista_cajas != [] and mejor_acercamiento[0] != 0:
+			numEleccion = lista_cajas.pop(0)
+			print( numEleccion )
+			if mejor_acercamiento[0] > abs( tam_contenedor - (numEleccion + sumatoria_actual) ) :
+				mejor_acercamiento[0] = abs( tam_contenedor - (numEleccion + sumatoria_actual) )
+				lista_actual.append( numEleccion )
+				mejor_acercamiento[1] = lista_actual.copy()
+				print( "Normal ~>",lista_actual , mejor_acercamiento )
+				mejor_acercamiento = Ordenando_cajas_en_contenedor(tam_contenedor , lista_cajas.copy() , sumatoria_actual+numEleccion , lista_actual.copy() , mejor_acercamiento )	
+				
+				lista_actual.remove( numEleccion )
+			elif (tam_contenedor-(sumatoria_actual+numEleccion ))>0:
+				lista_actual.append( numEleccion )
+				mejor_acercamiento = Ordenando_cajas_en_contenedor(tam_contenedor , lista_cajas.copy() , sumatoria_actual+numEleccion , lista_actual.copy() , mejor_acercamiento )
+				print( "Menor ~>" , lista_actual , mejor_acercamiento )
+				lista_actual.remove( numEleccion )
+
+	return mejor_acercamiento.copy() 
+
+tam_contenedor = 5
+
+#lista = [ 1 , 1 , 1 , 2 , 3 , 4 , 4 ]
+lista = [ 4 , 8 , 9 , 7 , 1 , 2 , 3 ]
+lista = OrdenandoMayorMenor_ListaCajas( lista )
+print( "Salida: ", Ordenando_cajas_en_contenedor( tam_contenedor , lista.copy() , 0 , [] , [ tam_contenedor , [] ] ) )

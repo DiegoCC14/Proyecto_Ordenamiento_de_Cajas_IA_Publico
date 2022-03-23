@@ -93,8 +93,6 @@ def OrdenandoMayorMenor_ListaCajas( Lista_Cajas ):
 	Lista_Cajas = Lista_Cajas[::-1] #Invertimos las listas
 	return Lista_Cajas
 
-
-
 # ------------------->>>
 # -- Configuracion -->>>
 Contenedor = (5,4)
