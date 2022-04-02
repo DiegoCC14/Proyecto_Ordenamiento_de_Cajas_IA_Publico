@@ -18,7 +18,7 @@ class Arbol_Posicionamiento_Cajas():
 		self.raiz = None
 
 	def Ver_Arbol( self ):
-		ListaArb = Arbol.representacion_en_forma_de_lista( self.raiz , [] , 0 )
+		ListaArb = self.representacion_en_forma_de_lista( self.raiz , [] , 0 )
 
 		contNivel = 0
 		for nivel in ListaArb:
@@ -88,15 +88,27 @@ class Arbol_Posicionamiento_Cajas():
 
 		return ListaCajasDisponibles
 
+	def espacios_vacios( self ):
+		#Retorna los espacios disponibles luego de ingresado las cajas
+
+		ListaArbol = self.representacion_en_forma_de_lista( self.raiz , [] , 0 )
+		Lista_Espacio_Disponibles = []
+		for nivel in ListaArbol:
+			for nodo in nivel:
+				if nodo.cajaInterna == None and ( nodo.dimencion[0]!=0 and nodo.dimencion[1]!=0 ):
+					Lista_Espacio_Disponibles.append( nodo )
+		return Lista_Espacio_Disponibles
+
 def OrdenandoMayorMenor_ListaCajas( Lista_Cajas ):
 	Lista_Cajas.sort() #Ordenamos de menor a mayor las tuplas
 	Lista_Cajas = Lista_Cajas[::-1] #Invertimos las listas
 	return Lista_Cajas
 
+'''
 # ------------------->>>
 # -- Configuracion -->>>
 Contenedor = (5,4)
-ListaCajas = [ (2,2) , (2,2) , (2,2) , (2,1) , (2,1) , (2,1) , (1,1) ]
+ListaCajas = [ (6,4) , (2,2) , (2,2) , (2,2) , (2,1) , (2,1) , (2,1) , (1,1) ]
 # ------------------->>>
 # ------------------->>>
 
@@ -108,3 +120,4 @@ Arbol.raiz = Node_Contenedor( Contenedor , None ) #El padre del Nodo es None
 Arbol.add_Cajas( Arbol.raiz , ListaCajas )
 
 Arbol.Ver_Arbol()
+'''
