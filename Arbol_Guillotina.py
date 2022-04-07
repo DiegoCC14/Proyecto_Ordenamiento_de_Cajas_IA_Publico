@@ -27,7 +27,7 @@ class Arbol_de_CorteGuillotina():
 		self.contenedor = contenedor
 		self.Cajas_a_Ingresar = ListaCajas
 
-		self.mal_desempenio = 0 #Indicamos cuanto es el peor desempenio de este arbol 
+		self.area_sin_uso = 0 #Indicamos cuanto es el peor desempenio de este arbol 
 
 	def VerArbol_CorteGuillotina( self ):
 		Lista_Arbol = self.representacion_en_forma_de_lista( self.raiz , [] , 0 )
@@ -107,42 +107,54 @@ class Arbol_de_CorteGuillotina():
 		for hoja_guillotina in list_nodos_hojas: #Ingresamos las cajas al arbol
 			cajasIngresar = hoja_guillotina.arbol_posicionamiento_de_cajas.add_Cajas( hoja_guillotina.arbol_posicionamiento_de_cajas.raiz , cajasIngresar )
 		
-		print( "Cajas sin ingresar: ",cajasIngresar ) #Las cajas que no se ingresaron
+		#cajasIngresar -> Las cajas que no se ingresaron
 		lista_espacios_vacios = []
 		for hoja_guillotina in list_nodos_hojas: #Ingresaremos las cajas vacias a una lista para el calculo de mal desempenio
-			#Para el calculo del desempenio , necesitamos solo las dimenciones
+			#Para el calculo del desempenio , necesitamos solo las dimenciones de los espacios vacios
 			lista_espacios_vacios += [ nodo_hoja.dimencion for nodo_hoja in hoja_guillotina.arbol_posicionamiento_de_cajas.espacios_vacios()]
 			
 		lista_espacios_vacios.sort()
 		lista_espacios_vacios = lista_espacios_vacios[::-1] #Invertimos la listas de Mayor a Menor
-		print( 'Espacios vacios: ', lista_espacios_vacios )
+		
 		cajasSinIngresar = []
 		for caja in cajasIngresar:
 			cajasSinIngresar.append( [ caja ] )
 			if caja[0] != caja[1]:
 				cajasSinIngresar[ len(cajasSinIngresar)-1 ].append( ( caja[1] , caja[0] ) )
-
-		print( "cajasSinIngresar: ",cajasSinIngresar )
-		print("~~~~~~~~~~~~~~~~~~>>>>>>>>")
-		for parCajas in cajasSinIngresar:
-
-			menor_desempenio = parCajas[0][0] * parCajas[0][1] #El area es la misma
-			mejor_caja = None
-			print("Iter: ",menor_desempenio)
+		
+		area_sin_uso = 0
+		Cajas_Desempenio = []
+		while cajasSinIngresar != [] and lista_espacios_vacios != []:
+			
+			parCajas = cajasSinIngresar.pop(0)
+			
+			menor_desempenio = parCajas[0][0] * parCajas[0][1] * 100 #El area es la misma * 100
+			mejor_caja_espacio_vacio = None
 			area_desperdiciada = 0
+			
 			for caja in parCajas: #Puede ser la caja acostada o parada 2 versiones
 				for espacio_vacio in lista_espacios_vacios:
 					res_tupla = diferencia_entre_cajas( caja , espacio_vacio )
-					#print( res_tupla )
 					if res_tupla[0] < menor_desempenio:
 						menor_desempenio = res_tupla[0]
-						area_desperdiciada = res_tupla[2]
-						mejor_caja = espacio_vacio
+						area_desperdiciada = res_tupla[1] #Area que quedo sin uso por contenedor vacio mas ancho o alto
+						mejor_caja_espacio_vacio = espacio_vacio
+			lista_espacios_vacios.remove( mejor_caja_espacio_vacio )
+			
+			Cajas_Desempenio.append( {"cajaElejida":parCajas[0],'areaDesperdiciada':area_desperdiciada} )
+			area_sin_uso += area_desperdiciada #Ingresamos las areas desperdiciadas
+		
+		for caja in cajasSinIngresar: #Ingresamos las cajas que no se pudieron ingresar
+			area_sin_uso += caja[0]*caja[1]
 
-			print( caja , " - ", espacio_vacio ," - ", menor_desempenio , " - ", area_desperdiciada ,"~~~~~~~~~>>>>>>>>")
-			lista_espacios_vacios.remove( mejor_caja )
-			print("Cajas Vacias: ", lista_espacios_vacios )
-			print("~~~~~~~~~~~~~~~~~~>>>>>>>>")
+		for caja_sin_uso in lista_espacios_vacios: #Ingresamos las cajas que quedaron sin uso
+			area_sin_uso += caja_sin_uso[0] * caja_sin_uso[1]
+
+		for dicc_caja in Cajas_Desempenio: #Ingresamos las cajas que quedaron sin uso
+			area_sin_uso += dicc_caja['cajaElejida'][0] * dicc_caja['cajaElejida'][1] + abs(dicc_caja['areaDesperdiciada'])		
+		
+		self.area_sin_uso = area_sin_uso
+		return area_sin_uso
 
 def diferencia_entre_cajas( caja_grande , caja_pequenia ):
 	#contenedor es la caja mas grande
@@ -151,7 +163,6 @@ def diferencia_entre_cajas( caja_grande , caja_pequenia ):
 
 	res_x = caja_grande[0] - caja_pequenia[0]
 	res_y = caja_grande[1] - caja_pequenia[1]
-	print( 'Res:',res_x , res_y )
 	valor_negativo = None #Que posicion es negativa
 	area_desperdiciada = 0
 
@@ -173,36 +184,36 @@ def diferencia_entre_cajas( caja_grande , caja_pequenia ):
 	else:
 		area_total = caja_arriba + caja_alado - res_y * res_x
 
-	print("Area Total: ", area_total , area_total + abs( area_desperdiciada ) )
-	return ( area_total + abs( area_desperdiciada ) , valor_negativo , area_desperdiciada )
+	return ( area_total + abs( area_desperdiciada ) , area_desperdiciada )
 
 def OrdenandoMayorMenor_ListaCajas( Lista_Cajas ):
 	Lista_Cajas.sort() #Ordenamos de menor a mayor las tuplas
 	Lista_Cajas = Lista_Cajas[::-1] #Invertimos las listas
 	return Lista_Cajas
 
-'''
-lista = [{'numero':6} , {'numero':1} , {'numero':3} , {'numero':5}]
-lista.sort( key=lambda casilla: casilla['numero'])
-print( lista )
-'''
-
 # ------------------->>>
 # -- Configuracion -->>>
 Altura_Arbol = 3
 Contenedor = (5,4)
-ListaCajas = [ (1,3) , (2,2) , (2,2) , (2,1) , (2,1) , (2,1) , (1,1) ]
+ListaCajas = [ (3,1) , (2,2) , (2,2) , (2,1) , (2,1) , (2,1) , (1,1) ]
 # ------------------->>>
 # ------------------->>>
+'''
+menor_desempenio = 10000
+for x in range(2000):
+	ArbolGuillotina = Arbol_de_CorteGuillotina( Altura_Arbol , Contenedor , ListaCajas )
+	corte = ArbolGuillotina.corte_aleatorio_vertical_o_horizontal()
+	ArbolGuillotina.raiz = Node_CorteGuillotina( Contenedor , corte , random.random() , None )
 
-ArbolGuillotina = Arbol_de_CorteGuillotina( Altura_Arbol , Contenedor , ListaCajas )
-corte = ArbolGuillotina.corte_aleatorio_vertical_o_horizontal()
-ArbolGuillotina.raiz = Node_CorteGuillotina( Contenedor , corte , random.random() , None )
+	ArbolGuillotina.Arma_arbolGuillotina_aleatoriamente( ArbolGuillotina.raiz , ArbolGuillotina.altura )
 
-ArbolGuillotina.Arma_arbolGuillotina_aleatoriamente( ArbolGuillotina.raiz , ArbolGuillotina.altura )
-
-ArbolGuillotina.calculando_desempenio()
-
+	ArbolGuillotina.calculando_desempenio()
+	if ArbolGuillotina.desempenio < menor_desempenio: 
+		menor_desempenio = ArbolGuillotina.desempenio
+print ( menor_desempenio )
+'''
 #Lista = ArbolGuillotina.representacion_en_forma_de_lista( ArbolGuillotina.raiz , [] , 0 )
 
 #ArbolGuillotina.VerArbol_CorteGuillotina()
+
+#print( diferencia_entre_cajas( (3,3) , (1,4) ) )
