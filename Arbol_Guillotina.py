@@ -69,8 +69,8 @@ class Arbol_de_CorteGuillotina():
 			corteNodeDerecha = self.corte_aleatorio_vertical_o_horizontal()
 			corteNodeIzquierdo = self.corte_aleatorio_vertical_o_horizontal()
 
-			nodoActual.nodo_derecho = Node_CorteGuillotina( TamCajaDerecha , corteNodeDerecha , random.random() , nodoActual )
-			nodoActual.nodo_izquierdo = Node_CorteGuillotina( TamCajaIzquierda , corteNodeIzquierdo , random.random() , nodoActual )
+			nodoActual.nodo_derecho = Node_CorteGuillotina( TamCajaDerecha , corteNodeDerecha , random.randint(1,99)/100 , nodoActual )
+			nodoActual.nodo_izquierdo = Node_CorteGuillotina( TamCajaIzquierda , corteNodeIzquierdo , random.randint(1,99)/100 , nodoActual )
 			
 			self.Arma_arbolGuillotina_aleatoriamente( nodoActual.nodo_derecho , altura_Actual-1 )
 			self.Arma_arbolGuillotina_aleatoriamente( nodoActual.nodo_izquierdo , altura_Actual-1 )
@@ -82,18 +82,49 @@ class Arbol_de_CorteGuillotina():
 		except:
 			ListaArbol.insert( nivel , [ nodoActual ] ) #Insertamos una lista con referencia al nodo actual
 		
-		if nivel != self.altura:	
+		if nivel != self.altura:
 			if nodoActual.nodo_derecho != None and nodoActual.nodo_izquierdo != None:
 				ListaArbol = self.representacion_en_forma_de_lista( nodoActual.nodo_derecho , ListaArbol , nivel+1 )
 				ListaArbol = self.representacion_en_forma_de_lista( nodoActual.nodo_izquierdo , ListaArbol , nivel+1 )
 		
 		return ListaArbol
-
+	
+	def all_nodos_intermedios( self ):
+		nivel_nodos_intermedios = self.representacion_en_forma_de_lista( self.raiz , [] , 0 )[0:self.altura]
+		list_nodos_intemedios = []
+		for list_nivel in nivel_nodos_intermedios:
+			for nodo in list_nivel:
+				list_nodos_intemedios.append( nodo )
+		return list_nodos_intemedios
 	def corte_aleatorio_vertical_o_horizontal( self ):
 		if random.random() > 0.5:
 			return "H"
 		return "V"
+	
+	def actualiza_valor_hoja( self , nodoActual , altura_Actual):
+		#Si se cambiaron algunos valores de nodos intermedios del arbol podremos actualizar los nodos hojas
+		TamCaja = nodoActual.dimencionCaja
+		if nodoActual.corte == "V":
+			TamCajaDerecha = ( TamCaja[0] * nodoActual.Porcentaje_de_Corte , TamCaja[1] )
+			TamCajaIzquierda = ( TamCaja[0] - ( TamCaja[0] * nodoActual.Porcentaje_de_Corte ) , TamCaja[1] )
+		elif nodoActual.corte == "H":
+			TamCajaDerecha = ( TamCaja[0] , TamCaja[1] * nodoActual.Porcentaje_de_Corte )
+			TamCajaIzquierda = ( TamCaja[0] , TamCaja[1] - ( TamCaja[1] * nodoActual.Porcentaje_de_Corte ) )
+		
+		if altura_Actual == 1:
+			#print( TamCaja , nodoActual.Porcentaje_de_Corte ,"Hoja:" ,TamCajaDerecha , TamCajaIzquierda , nodoActual.corte)
+			nodoActual.nodo_derecho = Node_Hoja_Guillotina( TamCajaDerecha , nodoActual )
+			nodoActual.nodo_derecho.arbol_posicionamiento_de_cajas = Arbol_Posicionamiento_Cajas.Arbol_Posicionamiento_Cajas()
+			nodoActual.nodo_derecho.arbol_posicionamiento_de_cajas.raiz = Arbol_Posicionamiento_Cajas.Node_Contenedor( TamCajaDerecha , None ) #El padre del Nodo es None
+			
+			nodoActual.nodo_izquierdo = Node_Hoja_Guillotina( TamCajaIzquierda , nodoActual )
+			nodoActual.nodo_izquierdo.arbol_posicionamiento_de_cajas = Arbol_Posicionamiento_Cajas.Arbol_Posicionamiento_Cajas()
+			nodoActual.nodo_izquierdo.arbol_posicionamiento_de_cajas.raiz = Arbol_Posicionamiento_Cajas.Node_Contenedor( TamCajaIzquierda , None ) #El padre del Nodo es None
 
+		else:
+			self.actualiza_valor_hoja( nodoActual.nodo_derecho , altura_Actual-1)
+			self.actualiza_valor_hoja( nodoActual.nodo_izquierdo , altura_Actual-1)
+			
 	def obtener_hojas(self):
 		lista_arbol = self.representacion_en_forma_de_lista( self.raiz , [] , 0 )
 		return( lista_arbol[len(lista_arbol)-1] )
@@ -145,7 +176,7 @@ class Arbol_de_CorteGuillotina():
 			area_sin_uso += area_desperdiciada #Ingresamos las areas desperdiciadas
 		
 		for caja in cajasSinIngresar: #Ingresamos las cajas que no se pudieron ingresar
-			area_sin_uso += caja[0]*caja[1]
+			area_sin_uso += caja[0][0]*caja[0][1]
 
 		for caja_sin_uso in lista_espacios_vacios: #Ingresamos las cajas que quedaron sin uso
 			area_sin_uso += caja_sin_uso[0] * caja_sin_uso[1]
@@ -193,27 +224,18 @@ def OrdenandoMayorMenor_ListaCajas( Lista_Cajas ):
 
 # ------------------->>>
 # -- Configuracion -->>>
-Altura_Arbol = 3
+Altura_Arbol = 4
 Contenedor = (5,4)
 ListaCajas = [ (3,1) , (2,2) , (2,2) , (2,1) , (2,1) , (2,1) , (1,1) ]
 # ------------------->>>
 # ------------------->>>
+
 '''
-menor_desempenio = 10000
-for x in range(2000):
-	ArbolGuillotina = Arbol_de_CorteGuillotina( Altura_Arbol , Contenedor , ListaCajas )
-	corte = ArbolGuillotina.corte_aleatorio_vertical_o_horizontal()
-	ArbolGuillotina.raiz = Node_CorteGuillotina( Contenedor , corte , random.random() , None )
+ArbolGuillotina = Arbol_de_CorteGuillotina( Altura_Arbol , Contenedor , ListaCajas )
+corte = ArbolGuillotina.corte_aleatorio_vertical_o_horizontal()
+ArbolGuillotina.raiz = Node_CorteGuillotina( (4,1) , corte , random.random() , None )
 
-	ArbolGuillotina.Arma_arbolGuillotina_aleatoriamente( ArbolGuillotina.raiz , ArbolGuillotina.altura )
-
-	ArbolGuillotina.calculando_desempenio()
-	if ArbolGuillotina.desempenio < menor_desempenio: 
-		menor_desempenio = ArbolGuillotina.desempenio
-print ( menor_desempenio )
+ArbolGuillotina.Arma_arbolGuillotina_aleatoriamente( ArbolGuillotina.raiz , ArbolGuillotina.altura )
+lista_nodos = ArbolGuillotina.all_nodos_intermedios()
+print( random.randint(13,len( lista_nodos )-1 ) )
 '''
-#Lista = ArbolGuillotina.representacion_en_forma_de_lista( ArbolGuillotina.raiz , [] , 0 )
-
-#ArbolGuillotina.VerArbol_CorteGuillotina()
-
-#print( diferencia_entre_cajas( (3,3) , (1,4) ) )
