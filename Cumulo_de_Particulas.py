@@ -43,7 +43,7 @@ class Algoritmo_Cumulo_de_Particulas():
 		self.ordenamos_poblacion_por_mejor_desempenio()
 
 		mejor_individuo = self.define_mejor_individuo_poblacion() #Definimos el mejor individuo de la poblacion
-		
+		print( "inicio: ",mejor_individuo.area_sin_uso )
 		#print( "@@",mejor_individuo.area_sin_uso )
 
 		for ciclo in range( ciclos ):
@@ -148,5 +148,6 @@ Cant_Ciclos = 40 #Cuantas generaciones se generaran antes de parar.
 
 PSO_ = Algoritmo_Cumulo_de_Particulas( Contenedor , Cant_Individuos , Altura_Arboles , ListaCajas )
 PSO_.algoritmo_pso( Cant_Ciclos )
-print( PSO_.poblacion[0].area_sin_uso )
+
+print( "salida: ",PSO_.poblacion[0].area_sin_uso )
 #PSO_.poblacion[0].VerArbol_CorteGuillotina()
