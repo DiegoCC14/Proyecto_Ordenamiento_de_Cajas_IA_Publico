@@ -1,5 +1,5 @@
 import Arbol_Guillotina , Arbol_Posicionamiento_Cajas
-
+import Cajas as Cajas_py
 import random
 
 class GA_Arbol_Guillotina():
@@ -136,24 +136,32 @@ class GA_Arbol_Guillotina():
 		return self.poblacion[ len(self.poblacion)-1 ]		
 
 
+admin_caja = Cajas_py.Administrador_Cajas()
+
 # ------------------->>>
 # -- Configuracion -->>>
-Contenedor = (10,9) #20
+Contenedor = admin_caja.retorna_tam_contenedor( 'cajas_22_aleatorio.json' ) 
+ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( 'cajas_22_aleatorio.json' )
 
-ListaCajas = [ (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) ]
-ListaCajas += [ (2,2) , (2,2) , (2,2) , (2,2) , (2,2) ]
-ListaCajas += [ (2,2) , (2,2) , (2,2) , (2,2) , (2,2) ]
-ListaCajas += [ (2,2) , (2,2) , (2,2) , (2,2) , (2,2) ]
-ListaCajas += [ (2,2) , (2,2) , (2,2) , (2,2) , (2,2) ]
+Contenedor = admin_caja.retorna_tam_contenedor( 'cajas_102_aleatorio.json' ) 
+ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( 'cajas_102_aleatorio.json' )
 
-Cant_Individuos = 300
+Contenedor = admin_caja.retorna_tam_contenedor( 'cajas_199_aleatorio.json' ) 
+ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( 'cajas_199_aleatorio.json' )
+
+Cant_Individuos = 400
 Altura_Arboles = 3 #La altura es igual a la cantidad de vertices entre la raiz y un nodo hoja
-Cant_Ciclos = 200 #Cuantas generaciones se generaran antes de parar.
+Cant_Ciclos = 30 #Cuantas generaciones se generaran antes de parar.
 # ------------------->>>
 # ------------------->>>
-GA = GA_Arbol_Guillotina( Contenedor , Cant_Individuos , Altura_Arboles , ListaCajas)
-GA.algoritmo_genetico( Cant_Ciclos )
-print( "~~~~>>>",GA.poblacion[0].area_sin_uso)
+
+esp_minimo = Contenedor[0] * Contenedor[1]
+for x in range(5):
+	GA = GA_Arbol_Guillotina( Contenedor , Cant_Individuos , Altura_Arboles , ListaCajas)
+	GA.algoritmo_genetico( Cant_Ciclos )
+
+	print( "~~~~>>>",GA.poblacion[0].area_sin_uso)
+
 #GA.poblacion[0].VerArbol_CorteGuillotina()
 #listaArbol = GA.poblacion[0].representacion_en_forma_de_lista( GA.poblacion[0].raiz , [] , 0 )
 #print( listaArbol[0:len( listaArbol )-1] )

@@ -7,7 +7,7 @@ class Administrador_Cajas():
 		#Las iteraciones definen la cantidad de niveles de las cajas
 			#Las por cada nivel definimos un numero entero aleatorio que sera la altura para todas las cajas
 		
-		lista_altura_nivel = [ random.randint(1,5) * 2 for iteracion in range(cant_niveles) ] #Es multiplo de 2
+		lista_altura_nivel = [ random.randint(1,100) * 2 for iteracion in range(cant_niveles) ] #Es multiplo de 2
 		dicc_cajas =  { 'contenedor': (0,0) , "cant_cajas": 0 , 'niveles_cajas': [] }
 		altura_contenedor = 0
 		divicion = 2
@@ -33,13 +33,22 @@ class Administrador_Cajas():
 		dicc_cajas['contenedor'] = ( ancho_caja , altura_contenedor )
 		return dicc_cajas
 	
+	def retorna_cant_cajas( self , archivo_json ):
+		with open( archivo_json , 'r' ) as file:
+			data = json.load(file)
+		return data['cant_cajas']
+	
+	def retorna_tam_contenedor( self , archivo_json ):
+		with open( archivo_json , 'r' ) as file:
+			data = json.load(file)
+		return tuple( data['contenedor'] ) 
+
 	def retorna_lista_unica_cajas_txt( self , archivo_json ):
 		with open( archivo_json , 'r' ) as file:
 			data = json.load(file)
 		lista_all_cajas = []
 		for nivel in data['niveles_cajas']:
 			lista_all_cajas += [ tuple(caja) for caja in nivel ] 
-
 		return lista_all_cajas
 
 	def guardar_datos_caja_txt( self , dicc_datos , nombre_json ):
@@ -48,22 +57,20 @@ class Administrador_Cajas():
 			json.dump( dicc_datos , file , indent=4)
 
 
+
 #Configuracion --->>>
 #----------------->>>
-ancho = 300
-niveles = 163
+ancho = 200
+niveles = 33
 #----------------->>>
 #----------------->>>
 
 obj_admin = Administrador_Cajas()
 
 dicc_contenedor = obj_admin.genera_cajas( ancho , niveles )
-for nivel_caja in dicc_contenedor['niveles_cajas']:
-	break
-	#print( nivel_caja )
-	#pass
+
 print( dicc_contenedor['contenedor'] )
 print( dicc_contenedor['cant_cajas'] )
 
-#obj_admin.guardar_datos_caja_txt( dicc_contenedor , 'salida.txt' )
-print( obj_admin.retorna_lista_unica_cajas_txt( 'salida.txt' ) )
+obj_admin.guardar_datos_caja_txt( dicc_contenedor , 'cajas_199_aleatorio.json' )
+#print( obj_admin.retorna_lista_unica_cajas_txt( 'salida.txt' ) )
