@@ -42,6 +42,7 @@ class Arbol_de_CorteGuillotina():
 					print(" Hoja ~> Dim:" + str( nodo.dimencionCaja ) + " - Padre: " +str( nodo.padre.dimencionCaja ) )
 				else:
 					print( " Nodo ~> Dim: "+str( nodo.dimencionCaja ) + " - Corte: " + nodo.corte +" - Padre: " +str( nodo.padre.dimencionCaja ) )
+					
 			contNivel += 1
 			print( "----------------->>>>>\n")
 
@@ -230,20 +231,11 @@ ListaCajas = [ (3,1) , (2,2) , (2,2) , (2,1) , (2,1) , (2,1) , (1,1) ]
 # ------------------->>>
 
 '''
-ArbolGuillotina = Arbol_de_CorteGuillotina( Altura_Arbol )
-
 ArbolGuillotina = Arbol_de_CorteGuillotina( Altura_Arbol , Contenedor , ListaCajas )
->>>>>>> develop
 corte = ArbolGuillotina.corte_aleatorio_vertical_o_horizontal()
 ArbolGuillotina.raiz = Node_CorteGuillotina( (4,1) , corte , random.random() , None )
 
 ArbolGuillotina.Arma_arbolGuillotina_aleatoriamente( ArbolGuillotina.raiz , ArbolGuillotina.altura )
-
-#Lista = ArbolGuillotina.representacion_en_forma_de_lista( ArbolGuillotina.raiz , [] , 0 )
-
-ArbolGuillotina.VerArbol_CorteGuillotina()
-
-
 lista_nodos = ArbolGuillotina.all_nodos_intermedios()
 print( random.randint(13,len( lista_nodos )-1 ) )
 '''
