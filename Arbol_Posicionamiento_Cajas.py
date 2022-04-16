@@ -21,7 +21,7 @@ class Arbol_Posicionamiento_Cajas():
 		self.DimencionCajaContenedor = DimencionCajaContenedor
 
 	def Ver_Arbol( self ):
-
+		ListaArb = self.representacion_en_forma_de_lista( self.raiz , [] , 0 )
 		ListaArb = Arbol.representacion_en_forma_de_lista( self.raiz , [] , 0 )
 		
 		contNivel = 0
@@ -122,17 +122,32 @@ class Arbol_Posicionamiento_Cajas():
 					Lista_Espacios_vacios.append( nodo.dimencion )
 		return Lista_Espacios_vacios
 
+	def espacios_vacios( self ):
+		#Retorna los espacios disponibles luego de ingresado las cajas
+
+		ListaArbol = self.representacion_en_forma_de_lista( self.raiz , [] , 0 )
+		Lista_Espacio_Disponibles = []
+		for nivel in ListaArbol:
+			for nodo in nivel:
+				if nodo.cajaInterna == None and ( nodo.dimencion[0]!=0 and nodo.dimencion[1]!=0 ):
+					Lista_Espacio_Disponibles.append( nodo )
+		return Lista_Espacio_Disponibles
+
 def OrdenandoMayorMenor_ListaCajas( Lista_Cajas ):
 	Lista_Cajas.sort() #Ordenamos de menor a mayor las tuplas
 	Lista_Cajas = Lista_Cajas[::-1] #Invertimos las listas
 	return Lista_Cajas
 
-
-
+'''
 # ------------------->>>
 # -- Configuracion -->>>
+
 Contenedor = (38,24)
 ListaCajas = [ (19,14) , (19,14) , (6,9) , (6,9) , (6,3) , (6,3) , (6,6) , (6,6) , (6,6) , (6,6) , (3,9) , (3,9) , (1,10) , (1,10) , (1,10) , (1,10) ]
+
+Contenedor = (5,4)
+ListaCajas = [ (6,4) , (2,2) , (2,2) , (2,2) , (2,1) , (2,1) , (2,1) , (1,1) ]
+
 # ------------------->>>
 # ------------------->>>
 
@@ -156,4 +171,8 @@ for dim in TamTotal:
 	x += dim[0]
 	y += dim[1]
 
+
 print( (x,y) )
+
+Arbol.Ver_Arbol()
+'''
