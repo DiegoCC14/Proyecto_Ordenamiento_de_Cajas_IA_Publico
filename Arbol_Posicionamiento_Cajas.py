@@ -2,6 +2,9 @@
 # Si no encaja entonces verificamos invirtiendo , es el unico caso
 #--->
 
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
 class Node_Contenedor():
 	def __init__( self , dimencion , padre ):
 		self.dimencion = dimencion #Tamanio Caja (Ancho , Alto)
@@ -99,25 +102,56 @@ class Arbol_Posicionamiento_Cajas():
 					Lista_Espacio_Disponibles.append( nodo )
 		return Lista_Espacio_Disponibles
 
+	def genera_grafica_rectangular_arbol( self ):
+
+		fig, ax = plt.subplots()
+
+		X = [ 0 , self.raiz.dimencion[0]]
+		Y = [ 0 , self.raiz.dimencion[1] ]
+		
+		ax.plot( X , Y ) #Dimencion de la caja
+
+		self.ingresando_cajas( self.raiz , (0,0) , ax)
+		
+		plt.show()
+
+	def ingresando_cajas( self , nodo_actual , punto_inicio , obj_grafico ):
+		if nodo_actual.cajaInterna != None:
+			obj_grafico.add_patch(
+				patches.Rectangle(
+				punto_inicio , #Punto Inicio
+				nodo_actual.cajaInterna[0] , #x anchura
+				nodo_actual.cajaInterna[1] , #y altura
+				edgecolor = 'black',
+				facecolor = 'brown',
+				fill=True
+			) )
+
+			punto_inicio_alado = ( punto_inicio[0] + nodo_actual.cajaInterna[0] , punto_inicio[1] ) 
+			self.ingresando_cajas( nodo_actual.Contenedor_Alado , punto_inicio_alado , obj_grafico )
+			
+			punto_inicio_arriba = ( punto_inicio[0] , punto_inicio[1] + nodo_actual.cajaInterna[1] ) 
+			self.ingresando_cajas( nodo_actual.Contenedor_Arriba , punto_inicio_arriba , obj_grafico )
+
 def OrdenandoMayorMenor_ListaCajas( Lista_Cajas ):
 	Lista_Cajas.sort() #Ordenamos de menor a mayor las tuplas
 	Lista_Cajas = Lista_Cajas[::-1] #Invertimos las listas
 	return Lista_Cajas
 
-'''
+
 # ------------------->>>
 # -- Configuracion -->>>
 Contenedor = (5,4)
 ListaCajas = [ (6,4) , (2,2) , (2,2) , (2,2) , (2,1) , (2,1) , (2,1) , (1,1) ]
 # ------------------->>>
 # ------------------->>>
-
-
+'''
 ListaCajas = OrdenandoMayorMenor_ListaCajas( ListaCajas )
 
 Arbol = Arbol_Posicionamiento_Cajas()
 Arbol.raiz = Node_Contenedor( Contenedor , None ) #El padre del Nodo es None
 Arbol.add_Cajas( Arbol.raiz , ListaCajas )
 
-Arbol.Ver_Arbol()
+#Arbol.Ver_Arbol()
+Arbol.genera_grafica_rectangular_arbol()
 '''

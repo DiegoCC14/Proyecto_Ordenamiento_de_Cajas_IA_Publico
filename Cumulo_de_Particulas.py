@@ -11,16 +11,60 @@ class Algoritmo_Cumulo_de_Particulas():
 
 		self.mejor_individuo = None
 
-	def algoritmo_pso(self , ciclos ):
+	def algoritmo_pso(self , ciclos , arbol_genetico ):
 		#Ingresando individuos a la poblacion
 		
+		self.definimos_poblacion_inicial()
+		
+		lista_individuo_ag = arbol_genetico.all_nodos_intermedios()
+		bandera = True
+		for individuo_pso in self.poblacion:
+			list_individuo_pso = individuo_pso.all_nodos_intermedios() 	
+			for pos in range( len( lista_individuo_ag ) ):
+				list_individuo_pso[pos].corte = lista_individuo_ag[pos].corte
+				if bandera:
+					list_individuo_pso[pos].Porcentaje_de_Corte = lista_individuo_ag[pos].Porcentaje_de_Corte	
+					list_individuo_pso[pos].dimencionCaja = lista_individuo_ag[pos].dimencionCaja
+			individuo_pso.actualiza_valor_hoja( individuo_pso.raiz , self.altura_arboles ) #Actualizamos los valores de los subcontenedores, hojas 
+			individuo_pso.calculando_desempenio()
+			bandera = False
+
+		self.ordenamos_poblacion_por_mejor_desempenio()
+
+		mejor_individuo = self.define_mejor_individuo_poblacion() #Definimos el mejor individuo de la poblacion
+
+		#print( "Inicio: ",mejor_individuo.area_sin_uso )
+
+		for ciclo in range( ciclos ):
+
+			for individuo in self.poblacion:
+				if individuo != self.mejor_individuo: #Realizamos el calculo menos para el mejor individuo
+					#print( "Individuo: ",individuo.area_sin_uso )
+
+					vector_vel_siguiente = self.calculo_vector_velocidad( individuo )
+					
+					sig_posicion = self.calculo_vector_posicion( individuo , vector_vel_siguiente )
+
+					individuo.actualizando_nueva_posicion_individuo( sig_posicion )
+
+					individuo.actulizando_mejor_pos_historica_y_desempenio_y_velocidad( vector_vel_siguiente )
+
+			self.ordenamos_poblacion_por_mejor_desempenio()
+
+			mejor_individuo = self.define_mejor_individuo_poblacion() #Definimos el mejor individuo de la poblacion 
+
+	def ordenamos_poblacion_por_mejor_desempenio( self ):
+		self.poblacion.sort( key=lambda individuo: individuo.area_sin_uso )		
+		return self.poblacion
+
+	def definimos_poblacion_inicial( self ):
 		for cont_individuo in range( self.cant_individuos ):
 			
-			peso = 0.5
-			aceleracion_1 = 0.7
-			aceleracion_2 = 0.7
-			random_1 = 0.9
-			random_2 = 0.9
+			peso = 1
+			aceleracion_1 = 1
+			aceleracion_2 = 1
+			random_1 = random.random()
+			random_2 = random.random()
 
 			individuo = Modulo_individuo_PSO.individuo_pso( self.contenedor 
 				, self.altura_arboles , self.cajas_a_ordenar
@@ -39,43 +83,6 @@ class Algoritmo_Cumulo_de_Particulas():
 			self.poblacion.append( individuo ) #Ingresamos individuo a la poblacion
 
 			#------------------------------>>>>>
-		
-		self.ordenamos_poblacion_por_mejor_desempenio()
-
-		mejor_individuo = self.define_mejor_individuo_poblacion() #Definimos el mejor individuo de la poblacion
-		print( "inicio: ",mejor_individuo.area_sin_uso )
-		#print( "@@",mejor_individuo.area_sin_uso )
-
-		for ciclo in range( ciclos ):
-
-			for individuo in self.poblacion:
-				
-				if individuo != self.mejor_individuo: #Realizamos el calculo menos para el mejor individuo
-
-					vector_vel_siguiente = self.calculo_vector_velocidad( individuo )
-					
-					#print( "velocidad: ",vector_vel_siguiente )
-					
-					sig_posicion = self.calculo_vector_posicion( individuo , vector_vel_siguiente )
-
-					#print( "posicion: ",sig_posicion )
-
-					individuo.actualizando_nueva_posicion_individuo( sig_posicion )
-
-					individuo.actulizando_mejor_pos_historica_y_desempenio_y_velocidad( vector_vel_siguiente )
-
-			self.ordenamos_poblacion_por_mejor_desempenio()
-
-			mejor_individuo = self.define_mejor_individuo_poblacion() #Definimos el mejor individuo de la poblacion 
-
-		
-
-	def ordenamos_poblacion_por_mejor_desempenio( self ):
-		self.poblacion.sort( key=lambda individuo: individuo.area_sin_uso )		
-		return self.poblacion
-
-	def definimos_poblacion_inicial( self ):
-		pass
 
 	def define_mejor_individuo_poblacion( self ): #Se define al mejor individuo
 		self.mejor_individuo = self.poblacion[0] #Definimos al mejor individuo
@@ -112,7 +119,6 @@ class Algoritmo_Cumulo_de_Particulas():
 		#print("@@@: ",vector_velocidad_sig)
 		return vector_velocidad_sig
 
-
 	def calculo_vector_posicion( self , individuo , vector_velocidad ):
 		calculoPosCorte = self.suma_entre_vectores( individuo.retorna_vector_posicion_actual() , vector_velocidad )
 		for pos in range( len( individuo.retorna_vector_posicion_actual() ) ):
@@ -132,22 +138,41 @@ class Algoritmo_Cumulo_de_Particulas():
 	def multiplicacion_a_vector( self , multiplicador , vector ):
 		return [ (multiplicador*casilla) for casilla in vector ]
 
-
+'''
+import Geneticos as Geneticos_Module , Cajas as Cajas_Module
 # ------------------->>>
 # -- Configuracion -->>>
-Contenedor = (10,9) #20
 
-ListaCajas = [ (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) ]
-ListaCajas += [ (2,2) , (2,2) , (2,2) , (2,2) , (2,2) ]*4 #-> 20*4 = 80 area
+admin_caja = Cajas_Module.Administrador_Cajas()
 
-Cant_Individuos = 200
+#Contenedor = admin_caja.retorna_tam_contenedor( 'cajas_102_aleatorio.json' ) 
+#ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( 'cajas_102_aleatorio.json' )
+
+#Contenedor = admin_caja.retorna_tam_contenedor( 'cajas_22_aleatorio.json' ) 
+#ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( 'cajas_22_aleatorio.json' )
+
+Contenedor = admin_caja.retorna_tam_contenedor( 'Ecenarios_de_Prueba/186_Cajas/cajas_186_aleatorio_20.json' ) 
+ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( 'Ecenarios_de_Prueba/186_Cajas/cajas_186_aleatorio_20.json' )
+
+Cant_Individuos = 100
 Altura_Arboles = 3 #La altura es igual a la cantidad de vertices entre la raiz y un nodo hoja
-Cant_Ciclos = 40 #Cuantas generaciones se generaran antes de parar.
+Cant_Ciclos = 1 #Cuantas generaciones se generaran antes de parar.
 # ------------------->>>
 # ------------------->>>
 
-PSO_ = Algoritmo_Cumulo_de_Particulas( Contenedor , Cant_Individuos , Altura_Arboles , ListaCajas )
-PSO_.algoritmo_pso( Cant_Ciclos )
+ListaCajas = [ (2,2) , (2,2) , (2,2) , (2,2) , (1,1),(1,1),(1,1),(1,1) ]
+Contenedor = (5,4)
 
-print( "salida: ",PSO_.poblacion[0].area_sin_uso )
-#PSO_.poblacion[0].VerArbol_CorteGuillotina()
+GA = Geneticos_Module.GA_Arbol_Guillotina( Contenedor , Cant_Individuos , Altura_Arboles , ListaCajas)
+GA.algoritmo_genetico( Cant_Ciclos )
+
+print("Mejor AG: " , GA.poblacion[0].area_sin_uso )
+
+for x in range(1):
+	#Indv = 800 mejora en 22 cajas
+	PSO_ = Algoritmo_Cumulo_de_Particulas( Contenedor , 50 , Altura_Arboles , ListaCajas )
+	PSO_.algoritmo_pso( 50 , GA.poblacion[0] )
+
+	print( "Mejor PSO: ",PSO_.poblacion[0].area_sin_uso )
+	PSO_.poblacion[0].genera_grafica_rectangular_arbol()
+'''

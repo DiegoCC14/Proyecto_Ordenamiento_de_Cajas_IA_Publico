@@ -1,5 +1,7 @@
 import Arbol_Posicionamiento_Cajas
 import random
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 
 
 class Node_Hoja_Guillotina():
@@ -96,6 +98,7 @@ class Arbol_de_CorteGuillotina():
 			for nodo in list_nivel:
 				list_nodos_intemedios.append( nodo )
 		return list_nodos_intemedios
+
 	def corte_aleatorio_vertical_o_horizontal( self ):
 		if random.random() > 0.5:
 			return "H"
@@ -122,6 +125,8 @@ class Arbol_de_CorteGuillotina():
 			nodoActual.nodo_izquierdo.arbol_posicionamiento_de_cajas.raiz = Arbol_Posicionamiento_Cajas.Node_Contenedor( TamCajaIzquierda , None ) #El padre del Nodo es None
 
 		else:
+			nodoActual.nodo_derecho.dimencionCaja = TamCajaDerecha
+			nodoActual.nodo_izquierdo.dimencionCaja = TamCajaIzquierda
 			self.actualiza_valor_hoja( nodoActual.nodo_derecho , altura_Actual-1)
 			self.actualiza_valor_hoja( nodoActual.nodo_izquierdo , altura_Actual-1)
 			
@@ -187,6 +192,45 @@ class Arbol_de_CorteGuillotina():
 		self.area_sin_uso = area_sin_uso
 		return area_sin_uso
 
+	def genera_grafica_rectangular_arbol( self ):
+		lista_nodos_intermedios = self.all_nodos_intermedios()
+		
+		fig, ax = plt.subplots()
+
+		X = [ 0 , self.raiz.dimencionCaja[0]]
+		Y = [ 0 , self.raiz.dimencionCaja[1] ]
+		
+		ax.plot( X , Y ) #Dimencion de la caja
+
+		self.ingresando_corte( self.raiz , (0,0) , lista_nodos_intermedios , ax)
+
+		plt.show()
+
+	def ingresando_corte( self , nodo_actual , punto_inicio , all_nodos_intermedios , obj_grafico):
+		obj_grafico.add_patch(
+			patches.Rectangle(
+			punto_inicio , #Punto Inicio
+			nodo_actual.dimencionCaja[0] , #x anchura
+			nodo_actual.dimencionCaja[1] , #y altura
+			edgecolor = 'black',
+			facecolor = 'green',
+			fill=True
+		) )
+		if nodo_actual in all_nodos_intermedios :
+			TamCaja = nodo_actual.dimencionCaja
+			self.ingresando_corte( nodo_actual.nodo_derecho , punto_inicio , all_nodos_intermedios , obj_grafico )
+			if nodo_actual.corte == "V":
+				TamCajaDerecha = ( TamCaja[0] * nodo_actual.Porcentaje_de_Corte , TamCaja[1] )
+				punto_inicio = ( punto_inicio[0] + TamCajaDerecha[0] , punto_inicio[1] ) 
+			elif nodo_actual.corte == "H":
+				TamCajaDerecha = ( TamCaja[0] , TamCaja[1] * nodo_actual.Porcentaje_de_Corte )
+				punto_inicio = ( punto_inicio[0] , punto_inicio[1] + TamCajaDerecha[1] ) 
+			self.ingresando_corte( nodo_actual.nodo_izquierdo , punto_inicio , all_nodos_intermedios , obj_grafico )
+		else:
+			raiz = nodo_actual.arbol_posicionamiento_de_cajas.raiz
+
+			nodo_actual.arbol_posicionamiento_de_cajas.ingresando_cajas( raiz , punto_inicio , obj_grafico )
+
 def diferencia_entre_cajas( caja_grande , caja_pequenia ):
 	#contenedor es la caja mas grande
 	#tam_caja es caja pequenia
@@ -222,20 +266,22 @@ def OrdenandoMayorMenor_ListaCajas( Lista_Cajas ):
 	Lista_Cajas = Lista_Cajas[::-1] #Invertimos las listas
 	return Lista_Cajas
 
+
 # ------------------->>>
 # -- Configuracion -->>>
-Altura_Arbol = 4
+Altura_Arbol = 3
 Contenedor = (5,4)
 ListaCajas = [ (3,1) , (2,2) , (2,2) , (2,1) , (2,1) , (2,1) , (1,1) ]
 # ------------------->>>
 # ------------------->>>
-
 '''
-ArbolGuillotina = Arbol_de_CorteGuillotina( Altura_Arbol , Contenedor , ListaCajas )
-corte = ArbolGuillotina.corte_aleatorio_vertical_o_horizontal()
-ArbolGuillotina.raiz = Node_CorteGuillotina( (4,1) , corte , random.random() , None )
+for x in range( 1 ):
+	ArbolGuillotina = Arbol_de_CorteGuillotina( Altura_Arbol , Contenedor , ListaCajas )
+	corte = ArbolGuillotina.corte_aleatorio_vertical_o_horizontal()
+	ArbolGuillotina.raiz = Node_CorteGuillotina( Contenedor , corte , random.random() , None )
 
-ArbolGuillotina.Arma_arbolGuillotina_aleatoriamente( ArbolGuillotina.raiz , ArbolGuillotina.altura )
-lista_nodos = ArbolGuillotina.all_nodos_intermedios()
-print( random.randint(13,len( lista_nodos )-1 ) )
+	ArbolGuillotina.Arma_arbolGuillotina_aleatoriamente( ArbolGuillotina.raiz , ArbolGuillotina.altura )
+	#print( random.randint(13,len( lista_nodos )-1 ) )
+
+	ArbolGuillotina.genera_grafica_rectangular_arbol()
 '''

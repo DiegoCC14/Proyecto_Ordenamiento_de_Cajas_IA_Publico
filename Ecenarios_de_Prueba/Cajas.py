@@ -16,9 +16,8 @@ class Administrador_Cajas():
 			
 			altura_contenedor += altura
 			
-			if divicion == 12:
-				divicion = 2
-			
+			divicion = random.randint( 2,10 ) 
+
 			ancho = int( ancho_caja/divicion )
 			list_nivel_caja = [ (ancho,altura) ] * divicion
 			
@@ -28,7 +27,7 @@ class Administrador_Cajas():
 			
 			dicc_cajas['niveles_cajas'].append( list_nivel_caja )
 			dicc_cajas["cant_cajas"] += len( list_nivel_caja )
-			divicion += 2
+			
 
 		dicc_cajas['contenedor'] = ( ancho_caja , altura_contenedor )
 		return dicc_cajas
@@ -57,21 +56,20 @@ class Administrador_Cajas():
 			json.dump( dicc_datos , file , indent=4)
 
 
-'''
+
 #Configuracion --->>>
 #----------------->>>
 ancho = 44
-niveles = 4
+niveles = 15
 #----------------->>>
 #----------------->>>
 
 obj_admin = Administrador_Cajas()
+for x in range(30):
+	dicc_contenedor = obj_admin.genera_cajas( ancho , niveles )
 
-dicc_contenedor = obj_admin.genera_cajas( ancho , niveles )
-
-print( dicc_contenedor['contenedor'] )
-print( dicc_contenedor['cant_cajas'] )
-
-obj_admin.guardar_datos_caja_txt( dicc_contenedor , 'cajas_22_aleatorio.json' )
-#print( obj_admin.retorna_lista_unica_cajas_txt( 'salida.txt' ) )
-'''
+	#print( dicc_contenedor['contenedor'] )
+	print( dicc_contenedor['cant_cajas'] )
+	print('')
+	obj_admin.guardar_datos_caja_txt( dicc_contenedor , f'cajas_100_aleatorio_{x}.json' )
+	#print( obj_admin.retorna_lista_unica_cajas_txt( 'salida.txt' ) )

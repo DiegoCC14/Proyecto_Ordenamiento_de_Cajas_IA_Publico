@@ -1,0 +1,5 @@
+Detalles de los contenedores:
+	- Cada carpeta tiene 30 escenarios generados aleatoriamente
+	- Los contenedores tienen un ancho de 44
+	- La altura del contenedor depende de los tamanios de las cajas	generadas por nivel
+	- El contenedor puede contener n cajas las cuales tienen un orden que deja 0 al espacio sin uso, encaje perfecto
