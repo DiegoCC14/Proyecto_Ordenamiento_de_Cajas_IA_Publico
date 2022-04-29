@@ -31,7 +31,40 @@ class Administrador_Cajas():
 
 		dicc_cajas['contenedor'] = ( ancho_caja , altura_contenedor )
 		return dicc_cajas
-	
+
+	def genera_cajas_aleatoriamente( self , contenedor_dim ):
+		
+		dicc_cajas =  { 'contenedor': contenedor_dim , "cant_cajas": 0 , 'niveles_cajas': [ [] ] }
+
+		dimencion_cubierta = 0
+		dimencion_total_contenedor = contenedor_dim[0] * contenedor_dim[1]
+		lista_cajas = []
+		while dimencion_cubierta < dimencion_total_contenedor: #Genera cajas aleatoriamente
+
+			caja_ancho = random.randint( 1 , contenedor_dim[0]/5 ) 
+			caja_alto = random.randint( 1 , contenedor_dim[1]/5 )
+			if ( dimencion_cubierta+(caja_ancho*caja_alto) ) < dimencion_total_contenedor:
+				lista_cajas
+				dimencion_cubierta += caja_ancho*caja_alto
+				dicc_cajas["cant_cajas"] += 1
+				dicc_cajas['niveles_cajas'][0].append( (caja_ancho , caja_alto) ) #Un unico nivel aleatorio
+			else:
+				break
+
+		dimencion_restante = dimencion_total_contenedor - dimencion_cubierta	
+		while dimencion_restante > 0: #Genera cajas con altura 1, pero ancho aleatorio
+			if dimencion_restante > contenedor_dim[0]/5:
+				ancho_caja = random.randint( 1 , contenedor_dim[0]/5 )
+				dicc_cajas['niveles_cajas'][0].append( ( ancho_caja , 1) ) #Un unico nivel aleatorio
+			else:
+				ancho_caja = dimencion_restante
+				dicc_cajas['niveles_cajas'][0].append( ( dimencion_restante , 1) ) #Un unico nivel aleatorio
+			dimencion_cubierta += ancho_caja
+			dimencion_restante = dimencion_total_contenedor - dimencion_cubierta 
+			dicc_cajas["cant_cajas"] += 1
+
+		return dicc_cajas
+
 	def retorna_cant_cajas( self , archivo_json ):
 		with open( archivo_json , 'r' ) as file:
 			data = json.load(file)
@@ -66,10 +99,5 @@ niveles = 15
 
 obj_admin = Administrador_Cajas()
 for x in range(30):
-	dicc_contenedor = obj_admin.genera_cajas( ancho , niveles )
-
-	#print( dicc_contenedor['contenedor'] )
-	print( dicc_contenedor['cant_cajas'] )
-	print('')
-	obj_admin.guardar_datos_caja_txt( dicc_contenedor , f'cajas_100_aleatorio_{x}.json' )
-	#print( obj_admin.retorna_lista_unica_cajas_txt( 'salida.txt' ) )
+	dicc_contenedor = obj_admin.genera_cajas_aleatoriamente( (250,250) )
+	obj_admin.guardar_datos_caja_txt( dicc_contenedor , f'contendor_250_250_aleatorio_{x}.json' )
