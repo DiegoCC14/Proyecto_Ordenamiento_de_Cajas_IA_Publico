@@ -31,30 +31,53 @@ obtener un buen tiempo de procesamiento.
 <br>
 
 # Índice
-
-##### 1. Introducción
-
-##### 2. Marco Teórico
-
-##### 2.1 Algoritmo y Árbol de ordenamiento
-
-##### 2.1.1 Arbol de Ordenamiento
-
-##### 2.1.2 Implementacion
-
-##### 2.2 Árbol de Corte Guillotina
-
-##### 2.3 Algoritmo Genético
-
-##### 2.4 Implementación de la solución
-
-##### 3. Diseño Experimental
-
-##### 4. Resultados Obtenidos
-
-##### 5. Conclusiones
-
-##### 6. Bibliografia
+<li>
+ 1. Introducción
+</li>
+<br>
+<li>
+ 2. Marco Teórico
+</li>
+<br>
+<li>
+ 2.1 Algoritmo y Árbol de ordenamiento
+</li>
+<br>
+<li>
+ 2.1.1 Arbol de Ordenamiento
+</li>
+<br>
+<li>
+ 2.1.2 Implementacion
+</li>
+<br>
+<li>
+ 2.2 Árbol de Corte Guillotina
+</li>
+<br>
+<li>
+ 2.3 Algoritmo Genético
+</li>
+<br>
+<li>
+ 2.4 Implementación de la solución
+</li>
+<br>
+<li>
+ 3. Diseño Experimental
+</li>
+<br>
+<li>
+ 4. Resultados Obtenidos
+</li>
+<br>
+<li>
+ 5. Conclusiones
+</li>
+<br>
+<li>
+ 6. Bibliografia
+</li>
 <br>
 <br>
 
@@ -399,15 +422,14 @@ Con los resultados obtenidos vemos que mientras mas aumenta el tamaño de los co
 algoritmo propuesto, obtenemos peores resultados.
 </p>
 <p>
-Ahora mostraremos algunos resultados de como se reduce el area sin uso, con el pasar de los ciclos, esto usando el algoritmo propuesto y un contenedor de (50x50) para un conjunto de cajas definido aleatoriamente y siguiendo la regla propuestas(capitulo 3), esto ocurre al encontrar un individuo con mejores resultados en la poblacion.
-</p>
-
-<p>
-<image width="45%" src="https://user-images.githubusercontent.com/63387396/168905293-f8c57782-8222-4fef-a52f-fdbf2a35791b.png" />
-<image width="45%" src="https://user-images.githubusercontent.com/63387396/168905400-f20a9aa7-b2af-409f-a9c2-da7d5a32097c.png" />
+Ahora mostraremos algunos resultados de como se reduce el area sin uso, con el pasar de los ciclos, esto usando el algoritmo propuesto y un contenedor de (50x50) para un conjunto de cajas definido aleatoriamente y siguiendo la regla propuestas(capitulo 3), esto ocurre al encontrar, en la poblacion, un individuo con mejores resultados, aunque esta grafica solo muestra cuando aparece un mejor individuo con menor area desperdiciada, el segundo y tercer individuo tambien cambia con el pasar de ciclos.
 </p>
 <p>
-Las graficas nos muestra el valor del area desperdiciada por el pasar de los ciclos, comenzando desde la iteracion 1, ya que en el ciclo 0 muestra el contenedor vacio.
+<image width="45%" src="https://user-images.githubusercontent.com/63387396/169072423-cc9d2840-5b57-409f-9e0a-2d8b2c196d6a.png" />
+<image width="44%" src="https://user-images.githubusercontent.com/63387396/169072959-4426d7d1-6bda-4bad-8bfe-f5c827db18da.png" />
+</p>
+<p>
+Las graficas nos muestra, en el eje Y, el valor del area desperdiciada por el pasar de los ciclos, comenzando desde la iteracion 1, ya que en el ciclo 0 muestra el contenedor vacio.
 </p>
 <br>
 
@@ -442,11 +464,11 @@ sin usar AG, los resultados mejoran bastante en alrededor del 10%, y en un tiemp
 uso del AG es importante para mejorar los resultados ya que este en un comienzo realiza una
 búsqueda aleatoria y luego con la evolucion de la poblacion, busca en espacios de soluciones mas
 reducidos , reduciendo con el pasar de los ciclos aún mas los espacios de búsqueda hasta llegar a una población que no mejora.
-El algoritmo propuesto nos da buenos resultados,
- a pesar de ser bastante simple, se sabe que estos resultados pueden mejorar aún más,
+El algoritmo propuesto nos da buenos resultados, a pesar de ser bastante simple, sabemos que estos resultados pueden mejorar aún más,
 aumentando la cantidad de individuos de la población de AG , 
 implementando programación paralela para reducir los tiempos, implementando PSO 
-para mejorar los porcentajes de corte, mejorando el algoritmo de ordenamiento(2.1).
+para mejorar los porcentajes de corte, mejorando el algoritmo de ordenamiento(2.1), programando a cada individuo un algoritmo de busqueda local
+que busque sus mejores porcentajes de corte en cada ciclo.
 </p>
 
 <br>
