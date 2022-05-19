@@ -475,8 +475,16 @@ que busque sus mejores porcentajes de corte en cada ciclo.
 
 ### 6. Bibliografia
 
+<li>
 1- PROBLEMA DE EMPAQUETAMIENTO RECTANGULAR BIDIMENSIONAL TIPO
 GUILLOTINA - Universidad Tecnológica de Pereira
+</li>
+
+<li>
 2- SOLUCIÓN DEL PROBLEMA DE EMPAQUETAMIENTO ÓPTIMO
 BIDIMENSIONAL EN UNA SOLA PLACA – David Alvarez Martinez
+</li>
+
+<li>
 3- EL CODIGO DEL PROYECTO LO PUEDE ENCONTRAR EN "https://github.com/DiegoCC14/DiegoCazon_ProyectoFinal_IA1"
+</li>
