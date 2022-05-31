@@ -31,30 +31,53 @@ obtener un buen tiempo de procesamiento.
 <br>
 
 # Índice
-
-##### 1. Introducción
-
-##### 2. Estructuras de datos, algoritmo de ordenamiento y Algoritmo Genético
-
-##### 2.1 – Algoritmo y Árbol de ordenamiento
-
-##### 2.1.1 - Arbol de Ordenamiento
-
-##### 2.1.2 – Implementacion
-
-##### 2.2 – Árbol de Corte Guillotina
-
-##### 2.3 – Algoritmo Genético
-
-##### 2.4 Implementación de la solución
-
-##### 3. Diseño Experimental
-
-##### 4. Resultados Obtenidos
-
-##### 5. Bibliografia
-
-##### 6. Bibliografia
+<li>
+ 1. Introducción
+</li>
+<br>
+<li>
+ 2. Marco Teórico
+</li>
+<br>
+<li>
+ 2.1 Algoritmo y Árbol de ordenamiento
+</li>
+<br>
+<li>
+ 2.1.1 Arbol de Ordenamiento
+</li>
+<br>
+<li>
+ 2.1.2 Implementacion
+</li>
+<br>
+<li>
+ 2.2 Árbol de Corte Guillotina
+</li>
+<br>
+<li>
+ 2.3 Algoritmo Genético
+</li>
+<br>
+<li>
+ 2.4 Implementación de la solución
+</li>
+<br>
+<li>
+ 3. Diseño Experimental
+</li>
+<br>
+<li>
+ 4. Resultados Obtenidos
+</li>
+<br>
+<li>
+ 5. Conclusiones
+</li>
+<br>
+<li>
+ 6. Bibliografia
+</li>
 <br>
 <br>
 
@@ -398,7 +421,19 @@ Definimos el algoritmo propuesto en este informe con los siguientes parámetros,
 Con los resultados obtenidos vemos que mientras mas aumenta el tamaño de los contenedores para el
 algoritmo propuesto, obtenemos peores resultados.
 </p>
-<image src="https://user-images.githubusercontent.com/63387396/168727646-ceb42502-23f2-4dbc-a72a-ef3caa74735a.png"
+<p>
+Ahora mostraremos algunos resultados de como se reduce el area sin uso, con el pasar de los ciclos, esto usando el algoritmo propuesto y un contenedor de (50x50) para un conjunto de cajas definido aleatoriamente y siguiendo la regla propuestas(capitulo 3), esto ocurre al encontrar, en la poblacion, un individuo con mejores resultados, aunque esta grafica solo muestra cuando aparece un mejor individuo con menor area desperdiciada, el segundo y tercer individuo tambien cambia con el pasar de ciclos.
+</p>
+<p>
+<image width="45%" src="https://user-images.githubusercontent.com/63387396/169072423-cc9d2840-5b57-409f-9e0a-2d8b2c196d6a.png" />
+<image width="44%" src="https://user-images.githubusercontent.com/63387396/169072959-4426d7d1-6bda-4bad-8bfe-f5c827db18da.png" />
+</p>
+<p>
+Las graficas nos muestra, en el eje Y, el valor del area desperdiciada por el pasar de los ciclos, comenzando desde la iteracion 1, ya que en el ciclo 0 muestra el contenedor vacio.
+</p>
+<br>
+
+<image src="https://user-images.githubusercontent.com/63387396/168727646-ceb42502-23f2-4dbc-a72a-ef3caa74735a.png" />
 <p>
 La anterior imagen representa el orden en final que quedaria un contenedor luego de usar el algoritmo, los espacios verdes son los espacios desperdiciados y las cajas marrones, las cajas a ordenar. 
 </p>
@@ -407,32 +442,49 @@ La anterior imagen representa el orden en final que quedaria un contenedor luego
 Ahora haremos la comparación del algoritmo propuesto con AG y un algoritmo que busca
 aleatoriamente, para los mismos escenarios de 50, 100 y 250.
 </p>
-<image src="https://user-images.githubusercontent.com/63387396/168728099-aeb36ede-7b68-4ff1-a241-dbc93bd7db1c.png"/>
+
+<p>
+<image width="35%" src="https://user-images.githubusercontent.com/63387396/168728099-aeb36ede-7b68-4ff1-a241-dbc93bd7db1c.png"/>
+<image width="35%" src="https://user-images.githubusercontent.com/63387396/168727477-79b7c3f6-580d-486a-91de-cfb3eef94773.png"/>
+</p>
+  
 </p>
 Los resultados obtenidos, para el algoritmo aleatorio, suelen ser muy dispersos, estos en comparación con los obtenidos
 con el uso de un Algoritmo Genético suele empeorar, por el hecho de que AG agrega, además
 de búsquedas aleatorias al inicio, agrega una búsqueda mas profunda a medida que la poblacion avoluciona,
 en espacios de soluciones cada vez mas reducidos, con el pasar de los ciclos.
 <p>
+
+<br>
   
-### 5. Conclusiones
+### 5. Conclusiones finales
 <p>
 El algoritmo propuesto que hace uso de un algoritmo genético, tiene mejor desempeño que
 sin usar AG, los resultados mejoran bastante en alrededor del 10%, y en un tiempo similar, podemos concluir que el
 uso del AG es importante para mejorar los resultados ya que este en un comienzo realiza una
 búsqueda aleatoria y luego con la evolucion de la poblacion, busca en espacios de soluciones mas
 reducidos , reduciendo con el pasar de los ciclos aún mas los espacios de búsqueda hasta llegar a una población que no mejora.
-El algoritmo propuesto nos da buenos resultados,
- a pesar de ser bastante simple, se sabe que estos resultados pueden mejorar aún más,
+El algoritmo propuesto nos da buenos resultados, a pesar de ser bastante simple, sabemos que estos resultados pueden mejorar aún más,
 aumentando la cantidad de individuos de la población de AG , 
 implementando programación paralela para reducir los tiempos, implementando PSO 
-para mejorar los porcentajes de corte, mejorando el algoritmo de ordenamiento(2.1).
+para mejorar los porcentajes de corte, mejorando el algoritmo de ordenamiento(2.1), programando a cada individuo un algoritmo de busqueda local
+que busque sus mejores porcentajes de corte en cada ciclo.
 </p>
-  
+
+<br>
+
 ### 6. Bibliografia
 
+<li>
 1- PROBLEMA DE EMPAQUETAMIENTO RECTANGULAR BIDIMENSIONAL TIPO
 GUILLOTINA - Universidad Tecnológica de Pereira
+</li>
+
+<li>
 2- SOLUCIÓN DEL PROBLEMA DE EMPAQUETAMIENTO ÓPTIMO
 BIDIMENSIONAL EN UNA SOLA PLACA – David Alvarez Martinez
+</li>
+
+<li>
 3- EL CODIGO DEL PROYECTO LO PUEDE ENCONTRAR EN "https://github.com/DiegoCC14/DiegoCazon_ProyectoFinal_IA1"
+</li>
