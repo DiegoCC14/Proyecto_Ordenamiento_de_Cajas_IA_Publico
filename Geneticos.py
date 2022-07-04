@@ -3,6 +3,7 @@ import Cajas as Cajas_py
 import random
 
 class GA_Arbol_Guillotina():
+
 	def __init__( self , contenedor , cant_individuos , altura_arboles , cajas_a_ordenar ):
 		self.contenedor = contenedor
 		self.cant_individuos = cant_individuos
@@ -15,13 +16,7 @@ class GA_Arbol_Guillotina():
 		self.definimos_poblacion_inicial()	#DEFINIMOS UNA POBLACION ALEATORIAMENTE	
 		
 		for ciclo in range( cant_iteraciones ):
-			'''
-			print( "1er Desempenio: " , self.poblacion[0].area_sin_uso )
-			print( "1do Desempenio: " , self.poblacion[1].area_sin_uso )
-			print( "3ro Desempenio: " , self.poblacion[2].area_sin_uso )
-			print( "4to Desempenio: " , self.poblacion[3].area_sin_uso )
-			print("~~~~~~~~~~~~>>>>>>>>>>>>>>")
-			'''
+
 			lista_individuos = self.poblacion.copy()
 			#generamos una pareja
 
@@ -42,9 +37,6 @@ class GA_Arbol_Guillotina():
 
 				pos_corte = random.randrange( 1 , len( self.poblacion[0].all_nodos_intermedios() )-1 ) #Desde el segundo nodo a penultimo nodo
 				( indv_nuevo1 , indv_nuevo2 ) = self.Cruzamiento( pareja[0] , pareja[1] , pos_corte )
-				
-				#indv_nuevo1.genera_grafica_rectangular_arbol()
-				#indv_nuevo2.genera_grafica_rectangular_arbol()
 
 				self.calcular_desempenio_individuo( indv_nuevo1 ) #Calculamos el desempenio de los nuevos individuos
 				self.calcular_desempenio_individuo( indv_nuevo2 ) #Calculamos el desempenio de los nuevos individuos
@@ -133,42 +125,22 @@ class GA_Arbol_Guillotina():
 		return self.poblacion[ len(self.poblacion)-1 ]		
 
 
-# ------------------->>>
-# -- Configuracion -->>>
+if '__main__' == __name__:
 
-admin_caja = Cajas_py.Administrador_Cajas()
-'''
-Contenedor = admin_caja.retorna_tam_contenedor( 'cajas_102_aleatorio.json' ) 
-ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( 'cajas_102_aleatorio.json' )
+	# ------------------->>>
+	# -- Configuracion -->>>
 
-Contenedor = admin_caja.retorna_tam_contenedor( 'cajas_22_aleatorio.json' ) 
-ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( 'cajas_22_aleatorio.json' )
-'''
-'''
-Contenedor = admin_caja.retorna_tam_contenedor( 'cajas_22_aleatorio_0.json' ) 
-ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( 'cajas_22_aleatorio_0.json' )
+	#admin_caja = Cajas_py.Administrador_Cajas()
+	'''
+	Contenedor = admin_caja.retorna_tam_contenedor( 'cajas_102_aleatorio.json' ) 
+	ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( 'cajas_102_aleatorio.json' )
 
-Cant_Individuos = 150
-Altura_Arboles = 3 #La altura es igual a la cantidad de vertices entre la raiz y un nodo hoja
-Cant_Ciclos = 50 #Cuantas generaciones se generaran antes de parar.
-# ------------------->>>
-# ------------------->>>
-
-GA = GA_Arbol_Guillotina( Contenedor , Cant_Individuos , Altura_Arboles , ListaCajas)
-GA.algoritmo_genetico( Cant_Ciclos )
-print( GA.poblacion[0].area_sin_uso )
-
-GA.poblacion[0].genera_grafica_rectangular_arbol()
-#GA.poblacion[0].VerArbol_CorteGuillotina()
-'''
-'''
-import statistics
-import numpy
-lista_resultados22 = []
-for x in range(30):
-	caso_actual = f'Ecenarios_de_Prueba/22_Cajas/cajas_22_aleatorio_{x}.json'
-	Contenedor = admin_caja.retorna_tam_contenedor( caso_actual ) 
-	ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( caso_actual )
+	Contenedor = admin_caja.retorna_tam_contenedor( 'cajas_22_aleatorio.json' ) 
+	ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( 'cajas_22_aleatorio.json' )
+	'''
+	'''
+	Contenedor = admin_caja.retorna_tam_contenedor( 'cajas_22_aleatorio_0.json' ) 
+	ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( 'cajas_22_aleatorio_0.json' )
 
 	Cant_Individuos = 150
 	Altura_Arboles = 3 #La altura es igual a la cantidad de vertices entre la raiz y un nodo hoja
@@ -178,52 +150,74 @@ for x in range(30):
 
 	GA = GA_Arbol_Guillotina( Contenedor , Cant_Individuos , Altura_Arboles , ListaCajas)
 	GA.algoritmo_genetico( Cant_Ciclos )
-	print( (GA.poblacion[0].area_sin_uso * 100)/(Contenedor[0]*Contenedor[1]) )
-	
-	lista_resultados22.append( (GA.poblacion[0].area_sin_uso * 100)/(Contenedor[0]*Contenedor[1] ) )
-	
-	#GA.poblacion[0].genera_grafica_rectangular_arbol()
-print("Media 22 :", statistics.mean( lista_resultados22 ))
+	print( GA.poblacion[0].area_sin_uso )
 
-lista_resultados101 = []
-for x in range(30):
-	caso_actual = f'Ecenarios_de_Prueba/101_Cajas/cajas_101_aleatorio_{x}.json'
-	Contenedor = admin_caja.retorna_tam_contenedor( caso_actual ) 
-	ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( caso_actual )
+	GA.poblacion[0].genera_grafica_rectangular_arbol()
+	#GA.poblacion[0].VerArbol_CorteGuillotina()
+	'''
+	'''
+	import statistics
+	import numpy
+	lista_resultados22 = []
+	for x in range(30):
+		caso_actual = f'Ecenarios_de_Prueba/22_Cajas/cajas_22_aleatorio_{x}.json'
+		Contenedor = admin_caja.retorna_tam_contenedor( caso_actual ) 
+		ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( caso_actual )
 
-	Cant_Individuos = 150
-	Altura_Arboles = 3 #La altura es igual a la cantidad de vertices entre la raiz y un nodo hoja
-	Cant_Ciclos = 50 #Cuantas generaciones se generaran antes de parar.
-	# ------------------->>>
-	# ------------------->>>
+		Cant_Individuos = 150
+		Altura_Arboles = 3 #La altura es igual a la cantidad de vertices entre la raiz y un nodo hoja
+		Cant_Ciclos = 50 #Cuantas generaciones se generaran antes de parar.
+		# ------------------->>>
+		# ------------------->>>
 
-	GA = GA_Arbol_Guillotina( Contenedor , Cant_Individuos , Altura_Arboles , ListaCajas)
-	GA.algoritmo_genetico( Cant_Ciclos )
-	print( (GA.poblacion[0].area_sin_uso * 100)/(Contenedor[0]*Contenedor[1]) )
-	
-	lista_resultados101.append( (GA.poblacion[0].area_sin_uso * 100)/(Contenedor[0]*Contenedor[1] ) )
-	
-	#GA.poblacion[0].genera_grafica_rectangular_arbol()
-print("Media 101:", statistics.mean( lista_resultados101 ))
+		GA = GA_Arbol_Guillotina( Contenedor , Cant_Individuos , Altura_Arboles , ListaCajas)
+		GA.algoritmo_genetico( Cant_Ciclos )
+		print( (GA.poblacion[0].area_sin_uso * 100)/(Contenedor[0]*Contenedor[1]) )
+		
+		lista_resultados22.append( (GA.poblacion[0].area_sin_uso * 100)/(Contenedor[0]*Contenedor[1] ) )
+		
+		#GA.poblacion[0].genera_grafica_rectangular_arbol()
+	print("Media 22 :", statistics.mean( lista_resultados22 ))
 
-lista_resultados200 = []
-for x in range(30):
-	caso_actual = f'Ecenarios_de_Prueba/200_Cajas/cajas_200_aleatorio_{x}.json'
-	Contenedor = admin_caja.retorna_tam_contenedor( caso_actual ) 
-	ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( caso_actual )
+	lista_resultados101 = []
+	for x in range(30):
+		caso_actual = f'Ecenarios_de_Prueba/101_Cajas/cajas_101_aleatorio_{x}.json'
+		Contenedor = admin_caja.retorna_tam_contenedor( caso_actual ) 
+		ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( caso_actual )
 
-	Cant_Individuos = 150
-	Altura_Arboles = 3 #La altura es igual a la cantidad de vertices entre la raiz y un nodo hoja
-	Cant_Ciclos = 50 #Cuantas generaciones se generaran antes de parar.
-	# ------------------->>>
-	# ------------------->>>
+		Cant_Individuos = 150
+		Altura_Arboles = 3 #La altura es igual a la cantidad de vertices entre la raiz y un nodo hoja
+		Cant_Ciclos = 50 #Cuantas generaciones se generaran antes de parar.
+		# ------------------->>>
+		# ------------------->>>
 
-	GA = GA_Arbol_Guillotina( Contenedor , Cant_Individuos , Altura_Arboles , ListaCajas)
-	GA.algoritmo_genetico( Cant_Ciclos )
-	print( (GA.poblacion[0].area_sin_uso * 100)/(Contenedor[0]*Contenedor[1]) )
-	
-	lista_resultados200.append( (GA.poblacion[0].area_sin_uso * 100)/(Contenedor[0]*Contenedor[1] ) )
-	
-	#GA.poblacion[0].genera_grafica_rectangular_arbol()
-print("Media 200:", statistics.mean( lista_resultados200 ))
-'''
+		GA = GA_Arbol_Guillotina( Contenedor , Cant_Individuos , Altura_Arboles , ListaCajas)
+		GA.algoritmo_genetico( Cant_Ciclos )
+		print( (GA.poblacion[0].area_sin_uso * 100)/(Contenedor[0]*Contenedor[1]) )
+		
+		lista_resultados101.append( (GA.poblacion[0].area_sin_uso * 100)/(Contenedor[0]*Contenedor[1] ) )
+		
+		#GA.poblacion[0].genera_grafica_rectangular_arbol()
+	print("Media 101:", statistics.mean( lista_resultados101 ))
+
+	lista_resultados200 = []
+	for x in range(30):
+		caso_actual = f'Ecenarios_de_Prueba/200_Cajas/cajas_200_aleatorio_{x}.json'
+		Contenedor = admin_caja.retorna_tam_contenedor( caso_actual ) 
+		ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( caso_actual )
+
+		Cant_Individuos = 150
+		Altura_Arboles = 3 #La altura es igual a la cantidad de vertices entre la raiz y un nodo hoja
+		Cant_Ciclos = 50 #Cuantas generaciones se generaran antes de parar.
+		# ------------------->>>
+		# ------------------->>>
+
+		GA = GA_Arbol_Guillotina( Contenedor , Cant_Individuos , Altura_Arboles , ListaCajas)
+		GA.algoritmo_genetico( Cant_Ciclos )
+		print( (GA.poblacion[0].area_sin_uso * 100)/(Contenedor[0]*Contenedor[1]) )
+		
+		lista_resultados200.append( (GA.poblacion[0].area_sin_uso * 100)/(Contenedor[0]*Contenedor[1] ) )
+		
+		#GA.poblacion[0].genera_grafica_rectangular_arbol()
+	print("Media 200:", statistics.mean( lista_resultados200 ))
+	'''

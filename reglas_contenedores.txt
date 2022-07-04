@@ -1,5 +1,0 @@
-#-> Se generan cajas por nivel, si definimos 30 niveles entonces tendreomos 30 * cant_cajas_por_nivel de cajas
-#-> La altura de las cajas del mismo nivel es el mismo
-#-> el ancho de las cajas de un nivel sera:
-	#-> el ancho dividido por 2*iteracion hasta iteracion=5, en ese caso volvemos a 2
-	#-> tomamos el entero , puede quedar area y esta generara otra caja de misma altura y ancho restante.

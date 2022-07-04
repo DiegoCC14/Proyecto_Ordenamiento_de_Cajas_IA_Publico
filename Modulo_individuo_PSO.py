@@ -41,37 +41,39 @@ class individuo_pso( Modulo_Arbol_Guillotina.Arbol_de_CorteGuillotina ):
 			self.mejor_desempenio = self.area_sin_uso
 			self.mejor_posicion_historica = self.retorna_vector_posicion_actual()
 
-# ------------------->>>
-# -- Configuracion -->>>
-Contenedor = (10,9) #20
+if "__main__" == __name__:
+	
+	# ------------------->>>
+	# -- Configuracion -->>>
+	Contenedor = (10,9) #20
 
-ListaCajas = [ (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) ]
-ListaCajas += [ (2,2) , (2,2) , (2,2) , (2,2) , (2,2) ]*4 #-> 20*4 = 80 area
+	ListaCajas = [ (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) , (1,1) ]
+	ListaCajas += [ (2,2) , (2,2) , (2,2) , (2,2) , (2,2) ]*4 #-> 20*4 = 80 area
 
-Cant_Individuos = 500
-Altura_Arboles = 3 #La altura es igual a la cantidad de vertices entre la raiz y un nodo hoja
-Cant_Ciclos = 50 #Cuantas generaciones se generaran antes de parar.
-# ------------------->>>
-# ------------------->>>
+	Cant_Individuos = 500
+	Altura_Arboles = 3 #La altura es igual a la cantidad de vertices entre la raiz y un nodo hoja
+	Cant_Ciclos = 50 #Cuantas generaciones se generaran antes de parar.
+	# ------------------->>>
+	# ------------------->>>
 
-'''
-peso = 1
-aceleracion_1 = 1
-aceleracion_2 = 1 
-random_1 = 1 
-random_2 = 1
+	'''
+	peso = 1
+	aceleracion_1 = 1
+	aceleracion_2 = 1 
+	random_1 = 1 
+	random_2 = 1
 
-individuo = individuo_pso( Contenedor
-	, Altura_Arboles , ListaCajas
-	, peso , aceleracion_1 , aceleracion_2 , random_1 , random_2 )
+	individuo = individuo_pso( Contenedor
+		, Altura_Arboles , ListaCajas
+		, peso , aceleracion_1 , aceleracion_2 , random_1 , random_2 )
 
-corte = individuo.corte_aleatorio_vertical_o_horizontal()
-individuo.raiz = Modulo_Arbol_Guillotina.Node_CorteGuillotina( Contenedor , corte , random.random() , None )
+	corte = individuo.corte_aleatorio_vertical_o_horizontal()
+	individuo.raiz = Modulo_Arbol_Guillotina.Node_CorteGuillotina( Contenedor , corte , random.random() , None )
 
-individuo.Arma_arbolGuillotina_aleatoriamente( individuo.raiz , individuo.altura )
+	individuo.Arma_arbolGuillotina_aleatoriamente( individuo.raiz , individuo.altura )
 
-print( individuo.retorna_vector_posicion_actual() )
-individuo.actualizando_nueva_posicion_individuo([0.5 , 0.5 , 0.5 , 0.5 , 0.5 , 0.5 , 0.5 ])
-print( individuo.retorna_vector_posicion_actual() )
-'''
+	print( individuo.retorna_vector_posicion_actual() )
+	individuo.actualizando_nueva_posicion_individuo([0.5 , 0.5 , 0.5 , 0.5 , 0.5 , 0.5 , 0.5 ])
+	print( individuo.retorna_vector_posicion_actual() )
+	'''
 

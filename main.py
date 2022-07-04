@@ -16,6 +16,8 @@ AG_lista_tiempo_Cont50 = []
 AG_lista_tiempo_Cont100 = []
 AG_lista_tiempo_Cont250 = []
 
+
+
 '''
 for x in range(30):
 	
@@ -53,7 +55,8 @@ for x in range(30):
 
 	AG_lista_resultados_Cont250.append( (GA.poblacion[0].area_sin_uso * 100)/(Contenedor[0]*Contenedor[1] ) )
 	#---------------->>>
-	
+
+
 lista_result = [ AG_lista_resultados_Cont50 , AG_lista_resultados_Cont100 , AG_lista_resultados_Cont250 ]
 
 plt.boxplot( lista_result )
@@ -63,6 +66,7 @@ values = ['AG-Cont_50_50', 'AG-Cont_100_100' , 'AG-Cont_250_250']
 plt.xticks( [1,2,3] , values )
 plt.show()
 '''
+
 '''
 for estructura in Clasificador.keys():
 	print( estructura, ' : ' , Clasificador[estructura] )
@@ -77,6 +81,8 @@ plt.xlabel('Ciclos')
 x = [ x for x in range(1,Cant_Ciclos+1)]
 plt.plot( x , evolucion_geneticos )
 plt.show()
+'''
+
 '''
 caso50 = f'Ecenarios_de_Prueba/Contenedor_50_50_cajas_aleatorio/contendor_50_50_aleatorio_{19}.json'
 Contenedor = admin_caja.retorna_tam_contenedor( caso50 ) 
@@ -140,3 +146,4 @@ plt.title("Busqueda de Arbol Guillotina Random")
 values = ['Random-Cont_50_50', 'Random-Cont_100_100' , 'Random-Cont_250_250'] 
 plt.xticks( [1,2,3] , values )
 plt.show()
+'''

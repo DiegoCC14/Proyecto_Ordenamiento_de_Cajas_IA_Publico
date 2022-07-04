@@ -1,7 +1,3 @@
-#---> Casos a tomar en cuenta
-# Si no encaja entonces verificamos invirtiendo , es el unico caso
-#--->
-
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
@@ -17,6 +13,12 @@ class Node_Contenedor():
 
 class Arbol_Posicionamiento_Cajas():
 	
+	# Arbol usado para ordenar cajas dentro de un contenedor
+	#	- Le pasaremos una tupla (ancho , alto) del contenedor
+	#	- Le pasaremos una lista de tuplas que representa las cajas a ordenar , " add_cajas "
+	#	- con add_cajas se generara el arbol y podremos visualizar el Arbol , o representacion Grafica
+
+
 	def __init__( self ):
 		self.raiz = None
 
@@ -138,20 +140,20 @@ def OrdenandoMayorMenor_ListaCajas( Lista_Cajas ):
 	Lista_Cajas = Lista_Cajas[::-1] #Invertimos las listas
 	return Lista_Cajas
 
+if '__main__' == __name__:
+	# ------------------->>>
+	# -- Configuracion -->>>
+	Contenedor = (5,4)
+	ListaCajas = [ (6,4) , (2,2) , (2,2) , (2,2) , (2,1) , (2,1) , (2,1) , (1,1) ]
+	# ------------------->>>
+	# ------------------->>>
+	'''
+	ListaCajas = OrdenandoMayorMenor_ListaCajas( ListaCajas )
 
-# ------------------->>>
-# -- Configuracion -->>>
-Contenedor = (5,4)
-ListaCajas = [ (6,4) , (2,2) , (2,2) , (2,2) , (2,1) , (2,1) , (2,1) , (1,1) ]
-# ------------------->>>
-# ------------------->>>
-'''
-ListaCajas = OrdenandoMayorMenor_ListaCajas( ListaCajas )
+	Arbol = Arbol_Posicionamiento_Cajas()
+	Arbol.raiz = Node_Contenedor( Contenedor , None ) #El padre del Nodo es None
+	Arbol.add_Cajas( Arbol.raiz , ListaCajas )
 
-Arbol = Arbol_Posicionamiento_Cajas()
-Arbol.raiz = Node_Contenedor( Contenedor , None ) #El padre del Nodo es None
-Arbol.add_Cajas( Arbol.raiz , ListaCajas )
-
-#Arbol.Ver_Arbol()
-Arbol.genera_grafica_rectangular_arbol()
-'''
+	#Arbol.Ver_Arbol()
+	Arbol.genera_grafica_rectangular_arbol()
+	'''

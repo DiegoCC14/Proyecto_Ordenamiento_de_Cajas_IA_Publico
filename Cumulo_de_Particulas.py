@@ -138,41 +138,44 @@ class Algoritmo_Cumulo_de_Particulas():
 	def multiplicacion_a_vector( self , multiplicador , vector ):
 		return [ (multiplicador*casilla) for casilla in vector ]
 
-'''
-import Geneticos as Geneticos_Module , Cajas as Cajas_Module
-# ------------------->>>
-# -- Configuracion -->>>
+if "__main__" == __name__:
+	
 
-admin_caja = Cajas_Module.Administrador_Cajas()
+	'''
+	import Geneticos as Geneticos_Module , Cajas as Cajas_Module
+	# ------------------->>>
+	# -- Configuracion -->>>
 
-#Contenedor = admin_caja.retorna_tam_contenedor( 'cajas_102_aleatorio.json' ) 
-#ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( 'cajas_102_aleatorio.json' )
+	admin_caja = Cajas_Module.Administrador_Cajas()
 
-#Contenedor = admin_caja.retorna_tam_contenedor( 'cajas_22_aleatorio.json' ) 
-#ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( 'cajas_22_aleatorio.json' )
+	#Contenedor = admin_caja.retorna_tam_contenedor( 'cajas_102_aleatorio.json' ) 
+	#ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( 'cajas_102_aleatorio.json' )
 
-Contenedor = admin_caja.retorna_tam_contenedor( 'Ecenarios_de_Prueba/186_Cajas/cajas_186_aleatorio_20.json' ) 
-ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( 'Ecenarios_de_Prueba/186_Cajas/cajas_186_aleatorio_20.json' )
+	#Contenedor = admin_caja.retorna_tam_contenedor( 'cajas_22_aleatorio.json' ) 
+	#ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( 'cajas_22_aleatorio.json' )
 
-Cant_Individuos = 100
-Altura_Arboles = 3 #La altura es igual a la cantidad de vertices entre la raiz y un nodo hoja
-Cant_Ciclos = 1 #Cuantas generaciones se generaran antes de parar.
-# ------------------->>>
-# ------------------->>>
+	Contenedor = admin_caja.retorna_tam_contenedor( 'Ecenarios_de_Prueba/186_Cajas/cajas_186_aleatorio_20.json' ) 
+	ListaCajas = admin_caja.retorna_lista_unica_cajas_txt( 'Ecenarios_de_Prueba/186_Cajas/cajas_186_aleatorio_20.json' )
 
-ListaCajas = [ (2,2) , (2,2) , (2,2) , (2,2) , (1,1),(1,1),(1,1),(1,1) ]
-Contenedor = (5,4)
+	Cant_Individuos = 100
+	Altura_Arboles = 3 #La altura es igual a la cantidad de vertices entre la raiz y un nodo hoja
+	Cant_Ciclos = 1 #Cuantas generaciones se generaran antes de parar.
+	# ------------------->>>
+	# ------------------->>>
 
-GA = Geneticos_Module.GA_Arbol_Guillotina( Contenedor , Cant_Individuos , Altura_Arboles , ListaCajas)
-GA.algoritmo_genetico( Cant_Ciclos )
+	ListaCajas = [ (2,2) , (2,2) , (2,2) , (2,2) , (1,1),(1,1),(1,1),(1,1) ]
+	Contenedor = (5,4)
 
-print("Mejor AG: " , GA.poblacion[0].area_sin_uso )
+	GA = Geneticos_Module.GA_Arbol_Guillotina( Contenedor , Cant_Individuos , Altura_Arboles , ListaCajas)
+	GA.algoritmo_genetico( Cant_Ciclos )
 
-for x in range(1):
-	#Indv = 800 mejora en 22 cajas
-	PSO_ = Algoritmo_Cumulo_de_Particulas( Contenedor , 50 , Altura_Arboles , ListaCajas )
-	PSO_.algoritmo_pso( 50 , GA.poblacion[0] )
+	print("Mejor AG: " , GA.poblacion[0].area_sin_uso )
 
-	print( "Mejor PSO: ",PSO_.poblacion[0].area_sin_uso )
-	PSO_.poblacion[0].genera_grafica_rectangular_arbol()
-'''
+	for x in range(1):
+		#Indv = 800 mejora en 22 cajas
+		PSO_ = Algoritmo_Cumulo_de_Particulas( Contenedor , 50 , Altura_Arboles , ListaCajas )
+		PSO_.algoritmo_pso( 50 , GA.poblacion[0] )
+
+		print( "Mejor PSO: ",PSO_.poblacion[0].area_sin_uso )
+		PSO_.poblacion[0].genera_grafica_rectangular_arbol()
+	'''

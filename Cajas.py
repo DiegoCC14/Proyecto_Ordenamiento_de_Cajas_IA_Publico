@@ -4,8 +4,10 @@ class Administrador_Cajas():
 	def genera_cajas( self , ancho_caja , cant_niveles ):
 		#El ancho define la divicion por 2 que aremos, 100/2 -> 100/4 -> 100/6 -> 100/8 -> 100/10
 			#esto sera el ancho de las cajas
+
 		#Las iteraciones definen la cantidad de niveles de las cajas
 			#Las por cada nivel definimos un numero entero aleatorio que sera la altura para todas las cajas
+		
 		
 		lista_altura_nivel = [ random.randint(1, int(ancho_caja/2) ) * 2 for iteracion in range(cant_niveles) ] #Es multiplo de 2
 		dicc_cajas =  { 'contenedor': (0,0) , "cant_cajas": 0 , 'niveles_cajas': [] }
@@ -66,6 +68,13 @@ class Administrador_Cajas():
 
 		return dicc_cajas
 
+	def ingresar_cajas_manualmente( self , contenedor_dim , lista_cajas ):
+		dicc_cajas =  { 'contenedor': contenedor_dim , "cant_cajas": 0 , 'niveles_cajas': [ [] ] }
+		for tupla_caja in lista_cajas:
+			dicc_cajas["cant_cajas"] += 1
+			dicc_cajas['niveles_cajas'][0].append( tupla_caja ) #Un unico nivel aleatorio
+		return dicc_cajas
+
 	def retorna_cant_cajas( self , archivo_json ):
 		with open( archivo_json , 'r' ) as file:
 			data = json.load(file)
@@ -89,26 +98,27 @@ class Administrador_Cajas():
 		with open( nombre_json , 'w') as file:
 			json.dump( dicc_datos , file , indent=4)
 
+if '__main__' == __name__:
 
-'''
-#Configuracion --->>>
-#----------------->>>
-ancho = 44
-niveles = 4
-#----------------->>>
-#----------------->>>
+	'''
+	#Configuracion --->>>
+	#----------------->>>
+	ancho = 44
+	niveles = 4
+	#----------------->>>
+	#----------------->>>
 
-obj_admin = Administrador_Cajas()
+	obj_admin = Administrador_Cajas()
 
-dicc_contenedor = obj_admin.genera_cajas( ancho , niveles )
+	dicc_contenedor = obj_admin.genera_cajas( ancho , niveles )
 
-print( dicc_contenedor['contenedor'] )
-print( dicc_contenedor['cant_cajas'] )
+	print( dicc_contenedor['contenedor'] )
+	print( dicc_contenedor['cant_cajas'] )
 
-obj_admin.guardar_datos_caja_txt( dicc_contenedor , 'cajas_22_aleatorio.json' )
-#print( obj_admin.retorna_lista_unica_cajas_txt( 'salida.txt' ) )
-'''
+	obj_admin.guardar_datos_caja_txt( dicc_contenedor , 'cajas_22_aleatorio.json' )
+	#print( obj_admin.retorna_lista_unica_cajas_txt( 'salida.txt' ) )
+	'''
 
-obj_admin = Administrador_Cajas()
+	obj_admin = Administrador_Cajas()
 
-obj_admin.genera_cajas_aleatoriamente( ( 100 , 200 ) )
+	obj_admin.genera_cajas_aleatoriamente( ( 100 , 200 ) )
